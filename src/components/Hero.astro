@@ -1,7 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-import profilePhoto from '../assets/profile-photo.jpg';
----
 
 <section
   class="min-h-screen pt-[120px] pb-section-padding px-margin-page flex items-center"
@@ -62,11 +59,9 @@ import profilePhoto from '../assets/profile-photo.jpg';
     >
       <div class="profile-photo-container">
         <div class="profile-photo-frame slideshow" id="hero-slideshow">
-          <Image
-            src={profilePhoto}
+          <img
+            src="/profile-photo.jpg"
             alt="Arif Rijal Fadhilah"
-            width={420}
-            height={560}
             class="profile-photo-img slide active"
             decoding="async"
             loading="eager"

@@ -1,14 +1,9 @@
 ---
-import { Image } from 'astro:assets';
-import incubator from '../assets/project-incubator.jpg';
-import iotDashboard from '../assets/project-iot-dashboard.jpg';
-import energyMonitor from '../assets/project-energy-monitor.jpg';
-
 const projects = [
   {
     title: "Smart Baby Incubator with PID Control",
     description: "Developed a high-precision temperature regulation system for neonatal care. Implemented advanced PID algorithms on an ESP32 to maintain constant thermal environments with less than 0.2°C variance.",
-    image: incubator,
+    image: "/project-incubator.jpg",
     alt: "Smart baby incubator prototype with PID control display",
     tags: [
       { label: "C++", color: "text-primary" },
@@ -18,7 +13,7 @@ const projects = [
   {
     title: "ESP32 IoT Monitoring Dashboard",
     description: "Full-stack IoT solution. Engineered the firmware for distributed ESP32 sensor nodes communicating via MQTT, and built a real-time React dashboard to visualize environmental metrics and manage device states.",
-    image: iotDashboard,
+    image: "/project-iot-dashboard.jpg",
     alt: "IoT monitoring dashboard with real-time data visualization",
     tags: [
       { label: "ESP32", color: "text-primary" },
@@ -28,7 +23,7 @@ const projects = [
   {
     title: "Smart Energy Monitoring System",
     description: "Designed custom PCB architecture using KiCad for a multi-channel AC/DC energy monitor. Utilized STM32 for high-speed ADC sampling and power factor calculations, providing real-time analytics to reduce industrial power waste.",
-    image: energyMonitor,
+    image: "/project-energy-monitor.jpg",
     alt: "Custom PCB designed for energy monitoring system",
     tags: [
       { label: "STM32", color: "text-primary" },
@@ -51,11 +46,9 @@ const projects = [
       {projects.map((project) => (
         <div class="glass-card hover-lift overflow-hidden group flex flex-col h-full">
           <div class="h-48 relative overflow-hidden bg-surface-container border-b border-border-muted">
-            <Image
+            <img
               src={project.image}
               alt={project.alt}
-              width={400}
-              height={192}
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
