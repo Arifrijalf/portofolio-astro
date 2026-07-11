@@ -52,16 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
         // Force preload all videos immediately
         slides.forEach(slide => {
             if (slide.tagName === 'VIDEO') {
+                slide.preload = 'auto';
                 slide.load();
             }
         });
 
         function waitForVideo(video) {
             return new Promise(resolve => {
-                if (video.readyState >= 3) {
+                if (video.readyState >= 4) {
                     resolve();
                 } else {
-                    video.addEventListener('canplay', () => resolve(), { once: true });
+                    video.addEventListener('canplaythrough', () => resolve(), { once: true });
                 }
             });
         }
