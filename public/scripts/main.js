@@ -245,18 +245,17 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(CV_PATH, { method: 'HEAD' })
             .then(res => {
                 if (res.ok) {
-                    cvBtn.href = CV_PATH;
-                    cvBtn.setAttribute('download', '');
+                    cvBtn.addEventListener('click', () => {
+                        window.open(CV_PATH, '_blank');
+                    });
                 } else {
-                    cvBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
+                    cvBtn.addEventListener('click', () => {
                         alert('Maaf, CV belum di-update');
                     });
                 }
             })
             .catch(() => {
-                cvBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
+                cvBtn.addEventListener('click', () => {
                     alert('Maaf, CV belum di-update');
                 });
             });
