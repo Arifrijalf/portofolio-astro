@@ -242,23 +242,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const cvBtn = document.getElementById('download-cv-btn');
     if (cvBtn) {
         const CV_PATH = '/ArifRijalFadhilah_CV.pdf';
-        fetch(CV_PATH, { method: 'HEAD' })
-            .then(res => {
+        
+        cvBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch(CV_PATH, { method: 'HEAD' });
                 if (res.ok) {
-                    cvBtn.addEventListener('click', () => {
-                        window.open(CV_PATH, '_blank');
-                    });
+                    window.open(CV_PATH, '_blank');
                 } else {
-                    cvBtn.addEventListener('click', () => {
-                        alert('Maaf, CV belum di-update');
-                    });
-                }
-            })
-            .catch(() => {
-                cvBtn.addEventListener('click', () => {
                     alert('Maaf, CV belum di-update');
-                });
-            });
+                }
+            } catch (err) {
+                console.error('Error checking CV:', err);
+                alert('Maaf, CV belum di-update');
+            }
+        });
     }
 
     // Nav active state on scroll
