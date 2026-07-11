@@ -50,6 +50,10 @@ const projects = [
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
               src={project.image}
               alt={project.alt}
+              loading="lazy"
+              decoding="async"
+              width="400"
+              height="192"
             />
             <div class="absolute top-4 right-4 flex gap-2">
               {project.tags.map((tag) => (
