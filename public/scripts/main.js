@@ -59,10 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         function waitForVideo(video) {
             return new Promise(resolve => {
-                if (video.readyState >= 4) {
+                if (video.readyState >= 2) {
                     resolve();
                 } else {
-                    video.addEventListener('canplaythrough', () => resolve(), { once: true });
+                    const onReady = () => { resolve(); video.removeEventListener('loadeddata', onReady); };
+                    video.addEventListener('loadeddata', onReady);
                 }
             });
         }
