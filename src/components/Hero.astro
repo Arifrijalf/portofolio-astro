@@ -69,6 +69,7 @@ import profilePhoto from '../assets/profile-photo.jpg';
             height={560}
             class="profile-photo-img slide active"
             decoding="async"
+            loading="eager"
           />
           <video
             src="video1.mp4"
@@ -76,7 +77,7 @@ import profilePhoto from '../assets/profile-photo.jpg';
             class="profile-photo-img slide"
             playsinline
             muted
-            preload="none"
+            preload="auto"
           ></video>
           <video
             src="video2.mp4"
@@ -84,7 +85,7 @@ import profilePhoto from '../assets/profile-photo.jpg';
             class="profile-photo-img slide"
             playsinline
             muted
-            preload="none"
+            preload="auto"
           ></video>
         </div>
       </div>
