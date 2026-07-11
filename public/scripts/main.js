@@ -40,7 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
         lucide.createIcons();
     }
 
-    // Hero slideshow — auto-detect duration, videos loop 2x
+    // Preload all images in background
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+        const preload = new Image();
+        preload.src = img.src;
+    });
+
+    // Hero slideshow — preload all assets first, then play smoothly
     const slideshow = document.getElementById('hero-slideshow');
     if (slideshow) {
         const slides = slideshow.querySelectorAll('.slide');
@@ -49,81 +55,87 @@ document.addEventListener("DOMContentLoaded", () => {
         let loopCount = 0;
         const VIDEO_LOOPS = 2;
 
-        // Force preload all videos immediately
-        slides.forEach(slide => {
-            if (slide.tagName === 'VIDEO') {
-                slide.preload = 'auto';
-                slide.load();
-            }
-        });
+        // Hide slideshow until all assets loaded
+        slideshow.style.opacity = '0';
 
-        function waitForVideo(video) {
+        function preloadAsset(slide) {
             return new Promise(resolve => {
-                if (video.readyState >= 2) {
-                    resolve();
+                if (slide.tagName === 'VIDEO') {
+                    slide.preload = 'auto';
+                    slide.load();
+                    if (slide.readyState >= 2) { resolve(); return; }
+                    const onReady = () => { resolve(); slide.removeEventListener('loadeddata', onReady); };
+                    slide.addEventListener('loadeddata', onReady);
+                } else if (slide.tagName === 'IMG') {
+                    if (slide.complete) { resolve(); return; }
+                    slide.onload = () => resolve();
+                    slide.onerror = () => resolve();
                 } else {
-                    const onReady = () => { resolve(); video.removeEventListener('loadeddata', onReady); };
-                    video.addEventListener('loadeddata', onReady);
+                    resolve();
                 }
             });
         }
 
-        async function goToNext() {
-            clearTimeout(timer);
-            const prev = slides[current];
-
-            // Pause previous video & remove ended listener
-            if (prev.tagName === 'VIDEO') {
-                prev.pause();
-                prev.currentTime = 0;
-                prev.removeEventListener('ended', onVideoEnded);
-            }
-            prev.classList.remove('active');
-
-            // Advance index
-            current = (current + 1) % slides.length;
-            loopCount = 0;
-
-            const next = slides[current];
-
-            // If next is video, wait for buffer then show
-            if (next.tagName === 'VIDEO') {
-                await waitForVideo(next);
-                next.classList.add('active');
-                next.currentTime = 0;
-                next.play();
-            } else {
-                next.classList.add('active');
-            }
-
-            scheduleNext();
+        async function preloadAll() {
+            const promises = Array.from(slides).map(s => preloadAsset(s));
+            await Promise.all(promises);
         }
 
-        function onVideoEnded() {
-            loopCount++;
-            if (loopCount >= VIDEO_LOOPS) {
-                goToNext();
-            } else {
-                slides[current].currentTime = 0;
+        preloadAll().then(() => {
+            slideshow.style.opacity = '1';
+            slideshow.style.transition = 'opacity 0.5s ease';
+
+            function goToNext() {
+                clearTimeout(timer);
+                const prev = slides[current];
+
+                if (prev.tagName === 'VIDEO') {
+                    prev.pause();
+                    prev.currentTime = 0;
+                    prev.removeEventListener('ended', onVideoEnded);
+                }
+                prev.classList.remove('active');
+
+                current = (current + 1) % slides.length;
+                loopCount = 0;
+
+                const next = slides[current];
+                next.classList.add('active');
+
+                if (next.tagName === 'VIDEO') {
+                    next.currentTime = 0;
+                    next.play();
+                }
+
+                scheduleNext();
+            }
+
+            function onVideoEnded() {
+                loopCount++;
+                if (loopCount >= VIDEO_LOOPS) {
+                    goToNext();
+                } else {
+                    slides[current].currentTime = 0;
+                    slides[current].play();
+                }
+            }
+
+            function scheduleNext() {
+                clearTimeout(timer);
+                const slide = slides[current];
+                if (slide.tagName === 'VIDEO') {
+                    slide.addEventListener('ended', onVideoEnded);
+                } else {
+                    timer = setTimeout(goToNext, 4000);
+                }
+            }
+
+            // Start slideshow
+            if (slides[current].tagName === 'VIDEO') {
                 slides[current].play();
             }
-        }
-
-        function scheduleNext() {
-            clearTimeout(timer);
-            const slide = slides[current];
-            if (slide.tagName === 'VIDEO') {
-                slide.addEventListener('ended', onVideoEnded);
-            } else {
-                timer = setTimeout(goToNext, 4000);
-            }
-        }
-
-        // Start: play first slide if it's a video
-        if (slides[current].tagName === 'VIDEO') {
-            slides[current].play();
-        }
-        scheduleNext();
+            scheduleNext();
+        });
     }
 
     // Mobile menu toggle
