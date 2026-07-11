@@ -1,0 +1,133 @@
+<section class="py-section-padding px-margin-page relative" id="contact">
+  <div class="max-w-container-max mx-auto">
+    <div class="mb-12">
+      <h2
+        class="font-headline-lg text-headline-lg text-text-primary mb-4 flex items-center gap-4"
+      >
+        <i class="text-primary w-10 h-10" data-lucide="mail"></i>
+        Contact Protocol
+      </h2>
+      <div class="w-24 h-1 bg-primary rounded-full"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div
+        class="glass-card p-8 border border-border-muted relative overflow-hidden"
+      >
+        <div
+          class="absolute top-0 left-0 w-full h-8 bg-surface-container-highest border-b border-border-muted flex items-center px-4 gap-2"
+        >
+          <div class="w-3 h-3 rounded-full bg-error"></div>
+          <div class="w-3 h-3 rounded-full bg-accent-orange"></div>
+          <div class="w-3 h-3 rounded-full bg-secondary-fixed"></div>
+          <span class="ml-4 text-xs font-label-caps text-text-secondary"
+            >terminal@contact ~</span
+          >
+        </div>
+        <div class="pt-8 terminal-text text-sm space-y-4">
+          <p>
+            <span class="text-secondary-fixed">guest@system:~$</span> whoami
+          </p>
+          <p class="text-text-secondary">
+            Connecting to secure comms channel...
+          </p>
+          <p>
+            <span class="text-secondary-fixed">guest@system:~$</span> ping -c 3
+            arif.rijal
+          </p>
+          <ul class="text-text-secondary space-y-2 mt-4">
+            <li>
+              <a
+                class="hover:text-primary transition-colors flex items-center gap-2"
+                href="#"
+                ><i class="w-4 h-4" data-lucide="mail"></i>
+                arifrijalfadhilah@gmail.com</a
+              >
+            </li>
+            <li>
+              <a
+                class="hover:text-primary transition-colors flex items-center gap-2"
+                href="https://www.linkedin.com/in/arif-rijal-fadhilah"
+                target="_blank"
+                ><i class="w-4 h-4" data-lucide="linkedin"></i> Arif Rijal
+                Fadhilah</a
+              >
+            </li>
+            <li>
+              <a
+                class="hover:text-primary transition-colors flex items-center gap-2"
+                href="https://www.instagram.com/aarifrijal_/"
+                target="_blank"
+                ><i class="w-4 h-4" data-lucide="instagram"></i> @aarifrijal_</a
+              >
+            </li>
+          </ul>
+          <p class="mt-4">
+            <span class="text-secondary-fixed">guest@system:~$</span>
+            <span class="cursor-blink">_</span>
+          </p>
+        </div>
+      </div>
+      <div>
+        <form id="contact-form" action="https://formspree.io/f/mqevrdnv" method="POST" class="space-y-6">
+          <input type="text" name="_gotcha" class="_gotcha" tabindex="-1" autocomplete="off" />
+          <input type="hidden" name="_subject" value="Portfolio Contact" />
+          <div>
+            <label
+              class="block text-sm font-medium text-text-secondary mb-2"
+              for="name"
+              >Name</label
+            >
+            <input
+              class="w-full bg-surface-container-low border border-border-muted rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+              id="name"
+              name="name"
+              placeholder="John Doe"
+              type="text"
+              required
+              minlength="3"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-medium text-text-secondary mb-2"
+              for="email"
+              >Email</label
+            >
+            <input
+              class="w-full bg-surface-container-low border border-border-muted rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+              id="email"
+              name="email"
+              placeholder="john@example.com"
+              type="email"
+              required
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-medium text-text-secondary mb-2"
+              for="message"
+              >Message</label
+            >
+            <textarea
+              class="w-full bg-surface-container-low border border-border-muted rounded-lg px-4 py-3 text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors h-32 resize-none"
+              id="message"
+              name="message"
+              placeholder="Initialize connection..."
+              required
+              minlength="20"
+            ></textarea>
+            <p class="text-xs text-text-secondary mt-1 terminal-text">Minimum 20 characters</p>
+          </div>
+          <div id="form-status"></div>
+          <button
+            id="submit-btn"
+            type="submit"
+            class="w-full glow-btn-primary px-6 py-3 rounded-card font-body-md text-body-md flex items-center justify-center gap-2"
+          >
+            <i class="w-5 h-5" data-lucide="send"></i> <span class="btn-text">Transmit Message</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
