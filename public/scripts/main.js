@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             ticking = true;
         }
-    });
+    }, { passive: true });
 
     // Initialize EmailJS
     if (typeof emailjs !== 'undefined') {

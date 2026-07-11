@@ -6,31 +6,52 @@
 
     const ctx = canvas.getContext('2d');
     let w, h, stars = [], shootingStars = [];
+    let lastTime = 0;
+    const FPS = 24;
+    const interval = 1000 / FPS;
+
+    // Static stars drawn once to offscreen canvas
+    let staticCanvas, staticCtx;
 
     function resize() {
         w = canvas.width = window.innerWidth;
         h = canvas.height = window.innerHeight;
+        drawStaticStars();
     }
+
+    function drawStaticStars() {
+        staticCanvas = document.createElement('canvas');
+        staticCanvas.width = w;
+        staticCanvas.height = h;
+        staticCtx = staticCanvas.getContext('2d');
+
+        stars = [];
+        for (let i = 0; i < 100; i++) {
+            stars.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 1.2 + 0.2,
+                opacity: Math.random() * 0.5 + 0.3
+            });
+        }
+
+        staticCtx.fillStyle = 'rgba(162, 201, 255, 0.5)';
+        for (const s of stars) {
+            staticCtx.beginPath();
+            staticCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            staticCtx.fill();
+        }
+    }
+
     window.addEventListener('resize', resize);
     resize();
 
-    // Static stars
-    for (let i = 0; i < 150; i++) {
-        stars.push({
-            x: Math.random() * w,
-            y: Math.random() * h,
-            r: Math.random() * 1.2 + 0.2,
-            opacity: Math.random() * 0.5 + 0.3
-        });
-    }
-
     function addShootingStar() {
-        // Random start point (top or left edge)
         const x = Math.random() * w;
         const y = 0;
-        const angle = Math.PI / 4 + Math.random() * 0.2; // Falling diagonally
+        const angle = Math.PI / 4 + Math.random() * 0.2;
         const speed = Math.random() * 8 + 5;
-        
+
         shootingStars.push({
             x: x,
             y: y,
@@ -41,15 +62,31 @@
         });
     }
 
-    function draw() {
+    function draw(timestamp) {
+        // Pause when tab is hidden
+        if (document.hidden) {
+            requestAnimationFrame(draw);
+            return;
+        }
+
+        // Throttle to target FPS
+        if (timestamp - lastTime < interval) {
+            requestAnimationFrame(draw);
+            return;
+        }
+        lastTime = timestamp;
+
+        // Skip frame if no shooting stars (save GPU)
+        if (shootingStars.length === 0 && Math.random() > 0.02) {
+            requestAnimationFrame(draw);
+            return;
+        }
+
         ctx.clearRect(0, 0, w, h);
 
-        // Draw static stars
-        ctx.fillStyle = 'rgba(162, 201, 255, 0.5)';
-        for (const s of stars) {
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fill();
+        // Blit pre-rendered static stars
+        if (staticCanvas) {
+            ctx.drawImage(staticCanvas, 0, 0);
         }
 
         // Draw and update shooting stars
@@ -80,5 +117,5 @@
         requestAnimationFrame(draw);
     }
 
-    draw();
+    requestAnimationFrame(draw);
 })();
