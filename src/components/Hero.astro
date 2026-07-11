@@ -1,3 +1,8 @@
+---
+import { Image } from 'astro:assets';
+import profilePhoto from '../assets/profile-photo.jpg';
+---
+
 <section
   class="min-h-screen pt-[120px] pb-section-padding px-margin-page flex items-center"
   id="home"
@@ -55,34 +60,34 @@
     <div
       class="col-span-1 lg:col-span-6 mt-12 lg:mt-0 relative flex justify-center items-center"
     >
-  <div class="profile-photo-container">
-    <div class="profile-photo-frame slideshow" id="hero-slideshow">
-      <img
-        src="foto2.jpg"
-        alt="Arif Rijal Fadhilah"
-        class="profile-photo-img slide active"
-        decoding="async"
-        width="420"
-        height="560"
-      />
-      <video
-        src="video1.mp4"
-        alt="Arif Rijal Fadhilah in project demo 1"
-        class="profile-photo-img slide"
-        playsinline
-        muted
-        preload="none"
-      ></video>
-      <video
-        src="video2.mp4"
-        alt="Arif Rijal Fadhilah in project demo 2"
-        class="profile-photo-img slide"
-        playsinline
-        muted
-        preload="none"
-      ></video>
-    </div>
-  </div>
+      <div class="profile-photo-container">
+        <div class="profile-photo-frame slideshow" id="hero-slideshow">
+          <Image
+            src={profilePhoto}
+            alt="Arif Rijal Fadhilah"
+            width={420}
+            height={560}
+            class="profile-photo-img slide active"
+            decoding="async"
+          />
+          <video
+            src="video1.mp4"
+            alt="Arif Rijal Fadhilah in project demo 1"
+            class="profile-photo-img slide"
+            playsinline
+            muted
+            preload="none"
+          ></video>
+          <video
+            src="video2.mp4"
+            alt="Arif Rijal Fadhilah in project demo 2"
+            class="profile-photo-img slide"
+            playsinline
+            muted
+            preload="none"
+          ></video>
+        </div>
+      </div>
     </div>
   </div>
 </section>
