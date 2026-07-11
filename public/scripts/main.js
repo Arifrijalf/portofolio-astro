@@ -238,6 +238,30 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Download CV button — check if CV file exists
+    const cvBtn = document.getElementById('download-cv-btn');
+    if (cvBtn) {
+        const CV_PATH = '/ArifRijalFadhilah_CV.pdf';
+        fetch(CV_PATH, { method: 'HEAD' })
+            .then(res => {
+                if (res.ok) {
+                    cvBtn.href = CV_PATH;
+                    cvBtn.setAttribute('download', '');
+                } else {
+                    cvBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        alert('Maaf, CV belum di-update');
+                    });
+                }
+            })
+            .catch(() => {
+                cvBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert('Maaf, CV belum di-update');
+                });
+            });
+    }
+
     // Nav active state on scroll
     const sections = document.querySelectorAll("section[id]");
     const navLinks = document.querySelectorAll(".nav-link");
