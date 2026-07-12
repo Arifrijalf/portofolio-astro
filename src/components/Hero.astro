@@ -1,3 +1,8 @@
+---
+import { Image } from 'astro:assets';
+import profilePhoto from '../assets/profile-photo.jpg';
+---
+
 <section
   class="min-h-screen pt-[120px] pb-section-padding px-margin-page flex items-center"
   id="home"
@@ -64,12 +69,16 @@
     >
       <div class="profile-photo-container">
         <div class="profile-photo-frame slideshow" id="hero-slideshow">
-          <img
-            src="/profile-photo.jpg"
+          <Image
+            src={profilePhoto}
             alt="Arif Rijal Fadhilah"
             class="profile-photo-img slide active"
             decoding="async"
             loading="eager"
+            width={487}
+            height={865}
+            widths={[240, 480, 720, 960]}
+            sizes="(max-width: 768px) 240px, 487px"
           />
           <video
             src="/video1.mp4"
