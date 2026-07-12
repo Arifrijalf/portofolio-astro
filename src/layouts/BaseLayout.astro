@@ -45,7 +45,6 @@ const { title = 'Arif Rijal Fadhilah - Portofolio' } = Astro.props;
     />
   </noscript>
   <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script defer src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
 </head>
 <body class="antialiased relative selection:bg-primary-container selection:text-text-primary">
   <div class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-40"></div>
@@ -59,6 +58,8 @@ const { title = 'Arif Rijal Fadhilah - Portofolio' } = Astro.props;
   <HireMeModal />
 
   <script is:inline src="/scripts/stars.js"></script>
-  <script is:inline src="/scripts/main.js"></script>
+  <script>
+    import '../scripts/main.ts';
+  </script>
 </body>
 </html>

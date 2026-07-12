@@ -10,13 +10,14 @@
     const FPS = 24;
     const interval = 1000 / FPS;
 
-    // Static stars drawn once to offscreen canvas
     let staticCanvas, staticCtx;
 
     function resize() {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        drawStaticStars();
+        requestAnimationFrame(() => {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            drawStaticStars();
+        });
     }
 
     function drawStaticStars() {
@@ -63,20 +64,17 @@
     }
 
     function draw(timestamp) {
-        // Pause when tab is hidden
         if (document.hidden) {
             requestAnimationFrame(draw);
             return;
         }
 
-        // Throttle to target FPS
         if (timestamp - lastTime < interval) {
             requestAnimationFrame(draw);
             return;
         }
         lastTime = timestamp;
 
-        // Skip frame if no shooting stars (save GPU)
         if (shootingStars.length === 0 && Math.random() > 0.02) {
             requestAnimationFrame(draw);
             return;
@@ -84,12 +82,10 @@
 
         ctx.clearRect(0, 0, w, h);
 
-        // Blit pre-rendered static stars
         if (staticCanvas) {
             ctx.drawImage(staticCanvas, 0, 0);
         }
 
-        // Draw and update shooting stars
         for (let i = shootingStars.length - 1; i >= 0; i--) {
             const s = shootingStars[i];
             s.x += s.vx;
@@ -109,7 +105,6 @@
             ctx.stroke();
         }
 
-        // Randomly spawn shooting stars
         if (Math.random() < 0.03) {
             addShootingStar();
         }
