@@ -212,15 +212,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Magnetic button effect (desktop only)
     document.querySelectorAll('.magnetic-btn').forEach(btn => {
+        let rafId = null;
         btn.addEventListener('mousemove', (e) => {
             if (window.innerWidth < 768) return;
-            const rect = btn.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            const strength = 0.35;
-            btn.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+            if (rafId) return;
+            rafId = requestAnimationFrame(() => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const strength = 0.35;
+                btn.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+                rafId = null;
+            });
         });
         btn.addEventListener('mouseleave', () => {
+            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
             btn.style.transform = 'translate(0, 0)';
         });
     });
