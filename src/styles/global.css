@@ -235,6 +235,10 @@ html {
   mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 55%, transparent 100%);
 }
 
+.profile-photo-img[src$=".mp4"] {
+  height: 100%;
+}
+
 .slideshow {
   position: relative;
 }
