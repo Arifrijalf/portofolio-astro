@@ -206,6 +206,7 @@ html {
   overflow: hidden;
   border: 1px solid rgba(30, 41, 59, 0.8);
   background: rgba(17, 24, 39, 0.5);
+  aspect-ratio: 3 / 4;
   box-shadow:
     0 0 0 1px rgba(162, 201, 255, 0.05),
     0 8px 32px rgba(0, 0, 0, 0.4),
