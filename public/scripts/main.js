@@ -3,13 +3,21 @@
 // or I can keep the global script inclusion in BaseLayout if that's easier.
 // For now, I'll copy the logic as is.
 
+function waitForLucide(cb) {
+    if (typeof lucide !== 'undefined') { cb(); return; }
+    const check = setInterval(() => {
+        if (typeof lucide !== 'undefined') { clearInterval(check); cb(); }
+    }, 50);
+    setTimeout(() => clearInterval(check), 5000);
+}
+
 const toggleHireModal = () => {
     const modal = document.getElementById('hire-modal');
     if (!modal) return;
     modal.classList.toggle('hidden');
     modal.classList.toggle('flex');
     // Using Lucide global if available or simply relying on the UI framework
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    waitForLucide(() => lucide.createIcons());
 };
 
 const toggleMobileMenu = () => {
@@ -35,10 +43,10 @@ const closeMobileMenu = () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Initialize Lucide icons on page load
-    if (typeof lucide !== 'undefined') {
+    // Initialize Lucide icons on page load (wait for deferred script)
+    waitForLucide(() => {
         lucide.createIcons();
-    }
+    });
 
     // Preload all images in background
     document.querySelectorAll('img[loading="lazy"]').forEach(img => {
@@ -403,7 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.disabled = false;
             submitBtn.classList.remove('opacity-60', 'pointer-events-none');
             btnText.textContent = originalText;
-            if (typeof lucide !== 'undefined') lucide.createIcons();
+            waitForLucide(() => lucide.createIcons());
         });
     }
 });
