@@ -43,10 +43,12 @@ const closeMobileMenu = () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Initialize Lucide icons on page load (wait for deferred script)
-    waitForLucide(() => {
-        lucide.createIcons();
-    });
+    try {
+        // Initialize Lucide icons on page load (wait for deferred script)
+        waitForLucide(() => {
+            lucide.createIcons();
+        });
+    } catch {}
 
     // Preload all images in background
     document.querySelectorAll('img[loading="lazy"]').forEach(img => {
@@ -55,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Hero slideshow — preload all assets first, then play smoothly
+    try {
     const slideshow = document.getElementById('hero-slideshow');
     if (slideshow) {
         const slides = slideshow.querySelectorAll('.slide');
@@ -68,17 +71,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         function preloadAsset(slide) {
             return new Promise(resolve => {
+                const timeout = setTimeout(() => resolve(), 5000);
                 if (slide.tagName === 'VIDEO') {
                     slide.preload = 'auto';
                     slide.load();
-                    if (slide.readyState >= 2) { resolve(); return; }
-                    const onReady = () => { resolve(); slide.removeEventListener('loadeddata', onReady); };
+                    if (slide.readyState >= 2) { clearTimeout(timeout); resolve(); return; }
+                    const onReady = () => { clearTimeout(timeout); resolve(); slide.removeEventListener('loadeddata', onReady); };
                     slide.addEventListener('loadeddata', onReady);
+                    slide.addEventListener('error', () => { clearTimeout(timeout); resolve(); });
                 } else if (slide.tagName === 'IMG') {
-                    if (slide.complete) { resolve(); return; }
-                    slide.onload = () => resolve();
-                    slide.onerror = () => resolve();
+                    if (slide.complete) { clearTimeout(timeout); resolve(); return; }
+                    slide.onload = () => { clearTimeout(timeout); resolve(); };
+                    slide.onerror = () => { clearTimeout(timeout); resolve(); };
                 } else {
+                    clearTimeout(timeout);
                     resolve();
                 }
             });
@@ -112,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (next.tagName === 'VIDEO') {
                     next.currentTime = 0;
-                    next.play();
+                    next.play().catch(e => console.error("Video autoplay prevented:", e));
                 }
 
                 scheduleNext();
@@ -124,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     goToNext();
                 } else {
                     slides[current].currentTime = 0;
-                    slides[current].play();
+                    slides[current].play().catch(e => console.error("Video autoplay prevented:", e));
                 }
             }
 
@@ -140,10 +146,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Start slideshow
             if (slides[current].tagName === 'VIDEO') {
-                slides[current].play();
+                slides[current].play().catch(e => console.error("Video autoplay prevented:", e));
             }
             scheduleNext();
         });
+    }
+    } catch (e) {
+        console.error("Slideshow init failed:", e);
+        const slideshow = document.getElementById('hero-slideshow');
+        if (slideshow) slideshow.style.opacity = '1';
     }
 
     // Mobile menu toggle

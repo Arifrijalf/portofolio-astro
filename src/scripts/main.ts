@@ -35,40 +35,46 @@ function closeMobileMenu() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initIcons();
+    try {
+        initIcons();
+    } catch {}
 
     document.querySelectorAll('img[loading="lazy"]').forEach(img => {
         const preload = new Image();
         preload.src = img.src;
     });
 
-    const slideshow = document.getElementById('hero-slideshow');
-    if (slideshow) {
-        const slides = slideshow.querySelectorAll('.slide');
-        let current = 0;
-        let timer = null;
-        let loopCount = 0;
-        const VIDEO_LOOPS = 2;
+    try {
+        const slideshow = document.getElementById('hero-slideshow');
+        if (slideshow) {
+            const slides = slideshow.querySelectorAll('.slide');
+            let current = 0;
+            let timer = null;
+            let loopCount = 0;
+            const VIDEO_LOOPS = 2;
 
-        slideshow.style.opacity = '0';
+            slideshow.style.opacity = '0';
 
-        function preloadAsset(slide) {
-            return new Promise(resolve => {
-                if (slide.tagName === 'VIDEO') {
-                    slide.preload = 'auto';
-                    slide.load();
-                    if (slide.readyState >= 2) { resolve(); return; }
-                    const onReady = () => { resolve(); slide.removeEventListener('loadeddata', onReady); };
-                    slide.addEventListener('loadeddata', onReady);
-                } else if (slide.tagName === 'IMG') {
-                    if (slide.complete) { resolve(); return; }
-                    slide.onload = () => resolve();
-                    slide.onerror = () => resolve();
-                } else {
-                    resolve();
-                }
-            });
-        }
+            function preloadAsset(slide) {
+                return new Promise(resolve => {
+                    const timeout = setTimeout(() => resolve(), 5000);
+                    if (slide.tagName === 'VIDEO') {
+                        slide.preload = 'auto';
+                        slide.load();
+                        if (slide.readyState >= 2) { clearTimeout(timeout); resolve(); return; }
+                        const onReady = () => { clearTimeout(timeout); resolve(); slide.removeEventListener('loadeddata', onReady); };
+                        slide.addEventListener('loadeddata', onReady);
+                        slide.addEventListener('error', () => { clearTimeout(timeout); resolve(); });
+                    } else if (slide.tagName === 'IMG') {
+                        if (slide.complete) { clearTimeout(timeout); resolve(); return; }
+                        slide.onload = () => { clearTimeout(timeout); resolve(); };
+                        slide.onerror = () => { clearTimeout(timeout); resolve(); };
+                    } else {
+                        clearTimeout(timeout);
+                        resolve();
+                    }
+                });
+            }
 
         async function preloadAll() {
             const promises = Array.from(slides).map(s => preloadAsset(s));
@@ -96,10 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const next = slides[current];
                 next.classList.add('active');
 
-                if (next.tagName === 'VIDEO') {
-                    next.currentTime = 0;
-                    next.play();
-                }
+if (next.tagName === 'VIDEO') {
+    next.currentTime = 0;
+    next.play().catch(e => console.error("Video autoplay prevented:", e));
+}
 
                 scheduleNext();
             }
@@ -110,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     goToNext();
                 } else {
                     slides[current].currentTime = 0;
-                    slides[current].play();
+slides[current].play().catch(e => console.error("Video autoplay prevented:", e));
                 }
             }
 
@@ -125,11 +131,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (slides[current].tagName === 'VIDEO') {
-                slides[current].play();
+                slides[current].play().catch(e => console.error("Video autoplay prevented:", e));
             }
             scheduleNext();
         });
     }
+} catch (e) {
+    console.error("Slideshow init failed:", e);
+    const slideshow = document.getElementById('hero-slideshow');
+    if (slideshow) slideshow.style.opacity = '1';
+}
 
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     if (mobileMenuBtn) {
@@ -343,23 +354,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {}
 
-            if (!sent) {
+            if (!sent && typeof emailjs !== 'undefined') {
                 try {
+                    emailjs.init('WTPeowefUYZc_D5SZ');
                     const now = new Date();
                     const timeStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + ' ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-                    await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            service_id: 'service_f3wq55k',
-                            template_id: 'template_r4wrp6p',
-                            user_id: 'WTPeowefUYZc_D5SZ',
-                            template_params: {
-                                name: nameVal,
-                                message: messageVal,
-                                time: timeStr
-                            }
-                        })
+                    await emailjs.send('service_f3wq55k', 'template_r4wrp6p', {
+                        name: nameVal,
+                        message: messageVal,
+                        time: timeStr
                     });
                     sent = true;
                 } catch (err) {}
