@@ -73,8 +73,9 @@ import profilePhoto from '../assets/profile-photo.jpg';
             src={profilePhoto}
             alt="Arif Rijal Fadhilah"
             class="profile-photo-img slide active"
-            decoding="async"
+            decoding="sync"
             loading="eager"
+            fetchpriority="high"
             width={420}
             height={560}
             widths={[210, 320, 420]}
@@ -88,7 +89,7 @@ import profilePhoto from '../assets/profile-photo.jpg';
             height={560}
             playsinline
             muted
-            preload="auto"
+            preload="metadata"
           ></video>
           <video
             src="/video2.mp4"
@@ -98,7 +99,7 @@ import profilePhoto from '../assets/profile-photo.jpg';
             height={560}
             playsinline
             muted
-            preload="auto"
+            preload="metadata"
           ></video>
         </div>
       </div>

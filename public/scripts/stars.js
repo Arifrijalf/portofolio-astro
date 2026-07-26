@@ -1,4 +1,6 @@
 (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const canvas = document.createElement('canvas');
     canvas.id = 'stars-canvas';
     canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none';
@@ -9,6 +11,8 @@
     let lastTime = 0;
     const FPS = 24;
     const interval = 1000 / FPS;
+    let rafId = null;
+    let isVisible = true;
 
     let staticCanvas, staticCtx;
 
@@ -27,7 +31,7 @@
         staticCtx = staticCanvas.getContext('2d');
 
         stars = [];
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 60; i++) {
             stars.push({
                 x: Math.random() * w,
                 y: Math.random() * h,
@@ -64,19 +68,19 @@
     }
 
     function draw(timestamp) {
-        if (document.hidden) {
-            requestAnimationFrame(draw);
+        if (!isVisible || document.hidden) {
+            rafId = requestAnimationFrame(draw);
             return;
         }
 
         if (timestamp - lastTime < interval) {
-            requestAnimationFrame(draw);
+            rafId = requestAnimationFrame(draw);
             return;
         }
         lastTime = timestamp;
 
         if (shootingStars.length === 0 && Math.random() > 0.02) {
-            requestAnimationFrame(draw);
+            rafId = requestAnimationFrame(draw);
             return;
         }
 
@@ -109,8 +113,13 @@
             addShootingStar();
         }
 
-        requestAnimationFrame(draw);
+        rafId = requestAnimationFrame(draw);
     }
 
-    requestAnimationFrame(draw);
+    const observer = new IntersectionObserver((entries) => {
+        isVisible = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    observer.observe(canvas);
+
+    rafId = requestAnimationFrame(draw);
 })();

@@ -1,15 +1,10 @@
 import { createIcons } from 'lucide';
 
-function initIcons() {
-    createIcons();
-}
-
 function toggleHireModal() {
     const modal = document.getElementById('hire-modal');
     if (!modal) return;
     modal.classList.toggle('hidden');
     modal.classList.toggle('flex');
-    initIcons();
 }
 
 function toggleMobileMenu() {
@@ -36,54 +31,32 @@ function closeMobileMenu() {
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        initIcons();
+        createIcons();
     } catch {}
 
-    document.querySelectorAll('img[loading="lazy"]').forEach(img => {
-        const preload = new Image();
-        preload.src = img.src;
-    });
+    const slideshow = document.getElementById('hero-slideshow');
+    if (slideshow) {
+        const slides = slideshow.querySelectorAll('.slide');
+        let current = 0;
+        let timer = null;
+        let loopCount = 0;
+        const VIDEO_LOOPS = 2;
 
-    try {
-        const slideshow = document.getElementById('hero-slideshow');
-        if (slideshow) {
-            const slides = slideshow.querySelectorAll('.slide');
-            let current = 0;
-            let timer = null;
-            let loopCount = 0;
-            const VIDEO_LOOPS = 2;
-
-            slideshow.style.opacity = '0';
-
-            function preloadAsset(slide) {
-                return new Promise(resolve => {
-                    const timeout = setTimeout(() => resolve(), 5000);
-                    if (slide.tagName === 'VIDEO') {
-                        slide.preload = 'auto';
-                        slide.load();
-                        if (slide.readyState >= 2) { clearTimeout(timeout); resolve(); return; }
-                        const onReady = () => { clearTimeout(timeout); resolve(); slide.removeEventListener('loadeddata', onReady); };
-                        slide.addEventListener('loadeddata', onReady);
-                        slide.addEventListener('error', () => { clearTimeout(timeout); resolve(); });
-                    } else if (slide.tagName === 'IMG') {
-                        if (slide.complete) { clearTimeout(timeout); resolve(); return; }
-                        slide.onload = () => { clearTimeout(timeout); resolve(); };
-                        slide.onerror = () => { clearTimeout(timeout); resolve(); };
-                    } else {
-                        clearTimeout(timeout);
-                        resolve();
-                    }
-                });
-            }
-
-        async function preloadAll() {
-            const promises = Array.from(slides).map(s => preloadAsset(s));
-            await Promise.all(promises);
+        function preloadVideo(slide) {
+            if (slide.tagName !== 'VIDEO') return Promise.resolve();
+            return new Promise(resolve => {
+                const timeout = setTimeout(() => resolve(), 5000);
+                slide.preload = 'metadata';
+                slide.load();
+                if (slide.readyState >= 2) { clearTimeout(timeout); resolve(); return; }
+                const onReady = () => { clearTimeout(timeout); resolve(); slide.removeEventListener('loadeddata', onReady); };
+                slide.addEventListener('loadeddata', onReady);
+                slide.addEventListener('error', () => { clearTimeout(timeout); resolve(); });
+            });
         }
 
-        preloadAll().then(() => {
-            slideshow.style.opacity = '1';
-            slideshow.style.transition = 'opacity 0.5s ease';
+        const videoSlides = Array.from(slides).filter(s => s.tagName === 'VIDEO');
+        Promise.all(videoSlides.map(preloadVideo)).then(() => {
 
             function goToNext() {
                 clearTimeout(timer);
@@ -104,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 if (next.tagName === 'VIDEO') {
     next.currentTime = 0;
-    next.play().catch(e => console.error("Video autoplay prevented:", e));
+    next.play().catch(e => void e);
 }
 
                 scheduleNext();
@@ -116,7 +89,7 @@ if (next.tagName === 'VIDEO') {
                     goToNext();
                 } else {
                     slides[current].currentTime = 0;
-slides[current].play().catch(e => console.error("Video autoplay prevented:", e));
+slides[current].play().catch(e => void e);
                 }
             }
 
@@ -131,16 +104,11 @@ slides[current].play().catch(e => console.error("Video autoplay prevented:", e))
             }
 
             if (slides[current].tagName === 'VIDEO') {
-                slides[current].play().catch(e => console.error("Video autoplay prevented:", e));
+                slides[current].play().catch(e => void e);
             }
             scheduleNext();
         });
     }
-} catch (e) {
-    console.error("Slideshow init failed:", e);
-    const slideshow = document.getElementById('hero-slideshow');
-    if (slideshow) slideshow.style.opacity = '1';
-}
 
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     if (mobileMenuBtn) {
@@ -188,7 +156,7 @@ slides[current].play().catch(e => console.error("Video autoplay prevented:", e))
 
     if (hireModal) {
         hireModal.addEventListener('click', (e) => {
-            if (e.target === hireModal || e.target.classList.contains('backdrop-blur-sm')) {
+            if (e.target === hireModal) {
                 toggleHireModal();
             }
         });
@@ -354,20 +322,6 @@ slides[current].play().catch(e => console.error("Video autoplay prevented:", e))
                 }
             } catch (err) {}
 
-            if (!sent && typeof emailjs !== 'undefined') {
-                try {
-                    emailjs.init('WTPeowefUYZc_D5SZ');
-                    const now = new Date();
-                    const timeStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + ' ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-                    await emailjs.send('service_f3wq55k', 'template_r4wrp6p', {
-                        name: nameVal,
-                        message: messageVal,
-                        time: timeStr
-                    });
-                    sent = true;
-                } catch (err) {}
-            }
-
             if (sent) {
                 formStatus.innerHTML = '&#10003; Message transmitted successfully. I will respond shortly.';
                 formStatus.className = 'form-status success';
@@ -380,7 +334,6 @@ slides[current].play().catch(e => console.error("Video autoplay prevented:", e))
             submitBtn.disabled = false;
             submitBtn.classList.remove('opacity-60', 'pointer-events-none');
             btnText.textContent = originalText;
-            initIcons();
         });
     }
 });
