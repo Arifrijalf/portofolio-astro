@@ -283,9 +283,22 @@ slides[current].play().catch(e => void e);
     const submitBtn = document.getElementById('submit-btn');
     const formStatus = document.getElementById('form-status');
 
+    // Track last submission time for rate limiting
+    let lastSubmitTime = 0;
+    const MIN_SUBMIT_INTERVAL = 5000; // 5 seconds between submissions
+
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            // Rate limiting: prevent spam submissions
+            const now = Date.now();
+            if (now - lastSubmitTime < MIN_SUBMIT_INTERVAL) {
+                formStatus.innerHTML = 'Please wait a few seconds before submitting again.';
+                formStatus.className = 'form-status error';
+                return;
+            }
+            lastSubmitTime = now;
 
             const nameVal = document.getElementById('name').value.trim();
             const messageVal = document.getElementById('message').value.trim();
