@@ -5,6 +5,7 @@ function toggleHireModal() {
     if (!modal) return;
     modal.classList.toggle('hidden');
     modal.classList.toggle('flex');
+    createIcons();
 }
 
 function toggleMobileMenu() {
@@ -156,7 +157,7 @@ slides[current].play().catch(e => void e);
 
     if (hireModal) {
         hireModal.addEventListener('click', (e) => {
-            if (e.target === hireModal) {
+            if (e.target === hireModal || e.target.classList.contains('backdrop-blur-sm')) {
                 toggleHireModal();
             }
         });
