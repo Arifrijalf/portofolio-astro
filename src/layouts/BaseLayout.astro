@@ -17,9 +17,7 @@ const { title = 'Arif Rijal Fadhilah - Portofolio' } = Astro.props;
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>{title}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://github-readme-activity-graph.vercel.app" />
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="preload"
@@ -57,7 +55,7 @@ const { title = 'Arif Rijal Fadhilah - Portofolio' } = Astro.props;
   </main>
   <HireMeModal />
 
-  <script is:inline src="/scripts/stars.js"></script>
+  <script is:inline async src="/scripts/stars.js"></script>
   <script>
     import '../scripts/main.ts';
   </script>
