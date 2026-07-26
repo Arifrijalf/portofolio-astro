@@ -8,15 +8,11 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:pages": "astro build && rm -f dist/client/wrangler.json",
-    "preview": "npm run build && wrangler dev",
+    "preview": "npm run build && wrangler pages dev dist",
     "astro": "astro",
-    "generate-types": "wrangler types",
-    "deploy": "npm run build && wrangler deploy",
-    "deploy:pages": "npm run build:pages && wrangler pages deploy dist/client"
+    "deploy": "npm run build && wrangler pages deploy dist"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.1.4",
     "@tailwindcss/vite": "^4.3.2",
     "astro": "^7.0.7",
     "lucide": "^0.344.0",
