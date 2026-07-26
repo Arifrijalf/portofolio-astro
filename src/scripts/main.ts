@@ -325,7 +325,11 @@ slides[current].play().catch(e => void e);
 
             let sent = false;
             try {
-                const data = new FormData(contactForm);
+                const formData = new FormData();
+                formData.append('name', nameVal);
+                formData.append('email', document.getElementById('email').value.trim());
+                formData.append('message', messageVal);
+                formData.append('_subject', 'Portfolio Contact');
                 const response = await fetch('https://formspree.io/f/mqevrdnv', {
                     method: 'POST',
                     body: data,
