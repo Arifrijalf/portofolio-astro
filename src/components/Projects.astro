@@ -10,71 +10,56 @@ const projects = [
     description: "Developed a high-precision temperature regulation system for neonatal care. Implemented advanced PID algorithms on an ESP32 to maintain constant thermal environments with less than 0.2°C variance.",
     image: projectIncubator,
     alt: "Smart baby incubator prototype with PID control display",
-    tags: [
-      { label: "C++", color: "text-primary" },
-      { label: "PID", color: "text-secondary-fixed" }
-    ]
+    tags: ["C++", "PID"]
   },
   {
     title: "ESP32 IoT Monitoring Dashboard",
     description: "Full-stack IoT solution. Engineered the firmware for distributed ESP32 sensor nodes communicating via MQTT, and built a real-time React dashboard to visualize environmental metrics and manage device states.",
     image: projectIotDashboard,
     alt: "IoT monitoring dashboard with real-time data visualization",
-    tags: [
-      { label: "ESP32", color: "text-primary" },
-      { label: "MQTT", color: "text-secondary-fixed" }
-    ]
+    tags: ["ESP32", "MQTT"]
   },
   {
     title: "Smart Energy Monitoring System",
     description: "Designed custom PCB architecture using KiCad for a multi-channel AC/DC energy monitor. Utilized STM32 for high-speed ADC sampling and power factor calculations, providing real-time analytics to reduce industrial power waste.",
     image: projectEnergyMonitor,
     alt: "Custom PCB designed for energy monitoring system",
-    tags: [
-      { label: "STM32", color: "text-primary" },
-      { label: "KiCad", color: "text-secondary-fixed" }
-    ]
+    tags: ["STM32", "KiCad"]
   }
 ];
 ---
 
 <section class="py-section-padding px-margin-page relative" id="projects">
-  <div class="max-w-container-max mx-auto">
-    <div class="mb-12">
-      <h2 class="font-headline-lg text-headline-lg text-text-primary mb-4 flex items-center gap-4">
-        <span class="material-symbols-outlined text-primary text-4xl">memory</span>
+  <div>
+    <div class="mb-12" data-reveal>
+      <h2 class="font-headline-md text-[21px] text-text-primary font-bold">
         Featured Engineering
       </h2>
-      <div class="w-24 h-1 bg-primary rounded-full"></div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div id="projects-scroller" class="flex gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-2" data-reveal data-reveal-delay="1">
       {projects.map((project) => (
-        <div class="glass-card hover-lift overflow-hidden group flex flex-col h-full">
-          <div class="h-48 relative overflow-hidden bg-surface-container border-b border-border-muted">
+        <div class="snap-start min-w-[85vw] md:min-w-[420px] flex flex-col">
+          <div class="h-48 relative overflow-hidden border border-border-muted">
             <Image
               src={project.image}
               alt={project.alt}
               loading="lazy"
               decoding="async"
-              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+              class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]"
               width={400}
               height={192}
               widths={[320, 480, 640]}
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              sizes="(max-width: 768px) 85vw, 420px"
             />
-            <div class="absolute top-4 right-4 flex gap-2">
-              {project.tags.map((tag) => (
-                <span class={`px-2 py-1 bg-surface-card/90 backdrop-blur border border-border-muted rounded text-[10px] font-label-caps ${tag.color}`}>
-                  {tag.label}
-                </span>
-              ))}
-            </div>
           </div>
-          <div class="p-6 flex flex-col flex-grow">
-            <h3 class="font-headline-md text-[22px] text-text-primary mb-2 group-hover:text-primary transition-colors">
+          <div class="pt-6 flex flex-col flex-grow">
+            <p class="text-sm text-text-secondary mb-2">
+              {project.tags.join(" • ")}
+            </p>
+            <h3 class="font-headline-md text-[20px] text-text-primary mb-2">
               {project.title}
             </h3>
-            <p class="font-body-md text-[14px] text-text-secondary mb-6 flex-grow">
+            <p class="font-body-md text-[14px] text-text-secondary flex-grow">
               {project.description}
             </p>
           </div>

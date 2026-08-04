@@ -1,5 +1,7 @@
 import { createIcons } from 'lucide';
 
+document.documentElement.classList.add('js-anim');
+
 function toggleHireModal() {
     const modal = document.getElementById('hire-modal');
     if (!modal) return;
@@ -15,10 +17,10 @@ function toggleMobileMenu() {
     const isOpen = menu.classList.contains('is-open');
     if (isOpen) {
         menu.classList.remove('is-open');
-        icon.textContent = 'menu';
+        icon.textContent = '+';
     } else {
         menu.classList.add('is-open');
-        icon.textContent = 'close';
+        icon.textContent = '\u2013';
     }
 }
 
@@ -27,7 +29,7 @@ function closeMobileMenu() {
     const icon = document.getElementById('mobile-menu-icon');
     if (!menu || !icon) return;
     menu.classList.remove('is-open');
-    icon.textContent = 'menu';
+    icon.textContent = '+';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -352,6 +354,46 @@ slides[current].play().catch(e => void e);
             submitBtn.disabled = false;
             submitBtn.classList.remove('opacity-60', 'pointer-events-none');
             btnText.textContent = originalText;
+        });
+    }
+
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    if ('IntersectionObserver' in window && revealEls.length) {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                } else {
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach((el) => io.observe(el));
+    } else if (revealEls.length) {
+        revealEls.forEach((el) => el.classList.add('is-visible'));
+    }
+
+    const scroller = document.getElementById('projects-scroller');
+    if (scroller) {
+        const step = () => {
+            const card = scroller.querySelector('.snap-start');
+            return card ? card.getBoundingClientRect().width : 300;
+        };
+        scroller.addEventListener('wheel', (e) => {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                e.preventDefault();
+                scroller.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
+        window.addEventListener('keydown', (e) => {
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+            if (e.key === 'ArrowRight' || e.key === 'l' || e.key === 'L') {
+                e.preventDefault();
+                scroller.scrollBy({ left: step(), behavior: 'smooth' });
+            } else if (e.key === 'ArrowLeft' || e.key === 'h' || e.key === 'H') {
+                e.preventDefault();
+                scroller.scrollBy({ left: -step(), behavior: 'smooth' });
+            }
         });
     }
 });

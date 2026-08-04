@@ -1,0 +1,157 @@
+{
+  ".vscode/extensions.json": {
+    "mtime": 1785816530.8182204,
+    "ast_hash": "3adedb22d082dbd1ebb00b75d21403aa",
+    "semantic_hash": ""
+  },
+  ".vscode/launch.json": {
+    "mtime": 1785816530.8191676,
+    "ast_hash": "60493763dcbc2d109e57da86d997602a",
+    "semantic_hash": ""
+  },
+  "astro.config.mjs": {
+    "mtime": 1785816530.8191676,
+    "ast_hash": "1dff418f408338ea81a2f5b15ada67f7",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1785816530.8195496,
+    "ast_hash": "f7b97016f29684de39f8423e11fccee6",
+    "semantic_hash": ""
+  },
+  "public/scripts/stars.js": {
+    "mtime": 1785816530.8225496,
+    "ast_hash": "bee7eb97779e3d988f452347b9efbeab",
+    "semantic_hash": ""
+  },
+  "src/components/About.astro": {
+    "mtime": 1785818293.5457187,
+    "ast_hash": "a54ab230d9b8f4a8f2e2c8a2b91b006e",
+    "semantic_hash": ""
+  },
+  "src/components/Certificates.astro": {
+    "mtime": 1785818303.3968263,
+    "ast_hash": "9fc2e5340267a7b6c079068333b6858d",
+    "semantic_hash": ""
+  },
+  "src/components/Contact.astro": {
+    "mtime": 1785821223.1467235,
+    "ast_hash": "07e7bb37df611acdd61b7c1d80b92ed7",
+    "semantic_hash": ""
+  },
+  "src/components/Experience.astro": {
+    "mtime": 1785818299.324782,
+    "ast_hash": "c2f52b4d65bbc6612a5b3a3731ea128b",
+    "semantic_hash": ""
+  },
+  "src/components/Footer.astro": {
+    "mtime": 1785821214.404688,
+    "ast_hash": "5c1b4298c0754178bc1ec77eb38353cc",
+    "semantic_hash": ""
+  },
+  "src/components/GitHub.astro": {
+    "mtime": 1785818305.8508527,
+    "ast_hash": "b414ccae284cbb6acdd72367c57e2e6a",
+    "semantic_hash": ""
+  },
+  "src/components/Hero.astro": {
+    "mtime": 1785818288.5626633,
+    "ast_hash": "644b15b67133360172e2e38b047f19c9",
+    "semantic_hash": ""
+  },
+  "src/components/HireMeModal.astro": {
+    "mtime": 1785821232.665762,
+    "ast_hash": "56540a2c0775afd368f4321c7fd62c24",
+    "semantic_hash": ""
+  },
+  "src/components/Navigation.astro": {
+    "mtime": 1785818326.3360696,
+    "ast_hash": "76f9a526730a6a407eb46249a5caad79",
+    "semantic_hash": ""
+  },
+  "src/components/Projects.astro": {
+    "mtime": 1785820894.123242,
+    "ast_hash": "29051f50b29508bb79c28f8a5aa6f77e",
+    "semantic_hash": ""
+  },
+  "src/components/Skills.astro": {
+    "mtime": 1785818294.1507254,
+    "ast_hash": "8ee9b2f51099487b3c7faecde0517c3a",
+    "semantic_hash": ""
+  },
+  "src/layouts/BaseLayout.astro": {
+    "mtime": 1785817439.609925,
+    "ast_hash": "76e91c46e687ef61d398fd3ac74cc2a0",
+    "semantic_hash": ""
+  },
+  "src/pages/index.astro": {
+    "mtime": 1785816530.8356285,
+    "ast_hash": "d1ffc07ab1612a090d37c2c5f8aff8cb",
+    "semantic_hash": ""
+  },
+  "src/scripts/main.ts": {
+    "mtime": 1785823427.0894003,
+    "ast_hash": "ca8300d1d616f47dd4ed719ca5af297b",
+    "semantic_hash": ""
+  },
+  "tsconfig.json": {
+    "mtime": 1785816530.8356285,
+    "ast_hash": "3e014fb7ebe5e9d316483b84b7056181",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1785816530.8191676,
+    "ast_hash": "4d944a80d98bf8891d5b10081a86d3e1",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1785816530.8191676,
+    "ast_hash": "4d944a80d98bf8891d5b10081a86d3e1",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1785816530.8191676,
+    "ast_hash": "95087685015c2eb59c2a6f15ded86030",
+    "semantic_hash": ""
+  },
+  "public/favicon-v2.png": {
+    "mtime": 1785816530.8225496,
+    "ast_hash": "197e31cd10a70b24009488c1ecc7d669",
+    "semantic_hash": ""
+  },
+  "src/assets/profile-photo.jpg": {
+    "mtime": 1785816530.8345182,
+    "ast_hash": "407e272cae09c4c49edebd4051582c29",
+    "semantic_hash": ""
+  },
+  "src/assets/project-energy-monitor.jpg": {
+    "mtime": 1785816530.8352938,
+    "ast_hash": "d22e42e49b6095a9fbdacfba18fa4247",
+    "semantic_hash": ""
+  },
+  "src/assets/project-incubator.jpg": {
+    "mtime": 1785816530.8352938,
+    "ast_hash": "eb6a10fcbb9c5c5e854b1c45246d6f57",
+    "semantic_hash": ""
+  },
+  "src/assets/project-iot-dashboard.jpg": {
+    "mtime": 1785816530.8352938,
+    "ast_hash": "dba62fc5c0d0ef9fd50d771374ef7343",
+    "semantic_hash": ""
+  },
+  "public/video1.mp4": {
+    "mtime": 1785816530.8275495,
+    "ast_hash": "2a4b73b766b58a76c0d474c44f259307",
+    "semantic_hash": ""
+  },
+  "public/video2.mp4": {
+    "mtime": 1785816530.8325493,
+    "ast_hash": "8f2f7210af88e9437c33f1d26f67c155",
+    "semantic_hash": ""
+  },
+  "src/components/Icon.astro": {
+    "mtime": 1785821473.3776848,
+    "ast_hash": "0ef91864ffaec28a2c641a07acdc208c",
+    "semantic_hash": ""
+  }
+}

@@ -8,57 +8,43 @@ import profilePhoto from '../assets/profile-photo.jpg';
   id="home"
 >
   <div
-    class="max-w-container-max mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center"
+    class="w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center"
   >
     {/* Left: Info */}
     <div class="col-span-1 lg:col-span-6 space-y-8 z-10">
-      <div
-        class="inline-block px-4 py-1.5 rounded-full border border-border-muted bg-surface-container-low/50 backdrop-blur-sm"
-      >
-        <span
-          class="font-label-caps text-label-caps text-secondary-fixed flex items-center gap-2"
-        >
-          <span
-            class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"
-          ></span>
-          Portofolio
-        </span>
-      </div>
+      <p class="font-body-md text-[15px] text-text-secondary" data-reveal data-reveal-delay="1">Portofolio</p>
       <div class="space-y-4">
-        <h1 class="font-headline-xl text-headline-xl text-text-primary">
+        <h1 class="font-headline-xl text-headline-xl text-text-primary font-bold" data-reveal data-reveal-delay="2">
           Arif Rijal Fadhilah
         </h1>
-        <h2 class="font-headline-md text-headline-md text-text-secondary">
+        <h2 class="font-headline-md text-[21px] text-text-secondary" data-reveal data-reveal-delay="3">
           Embedded Systems Engineer <br />
           & IoT Developer
         </h2>
       </div>
-      <p class="font-body-lg text-body-lg text-text-secondary max-w-xl">
+      <p class="font-body-md text-[15px] text-text-secondary max-w-xl" data-reveal data-reveal-delay="4">
         Bridging the gap between hardware and software. Specializing in
         microcontrollers, real-time control systems, and robust IoT
         architectures for industrial and consumer applications.
       </p>
-      <div class="flex flex-wrap gap-4 pt-4">
+      <div class="flex flex-wrap gap-5 pt-4" data-reveal data-reveal-delay="5">
         <a
-          class="glow-btn-primary px-8 py-3 rounded-card font-body-md text-body-md flex items-center gap-2"
+          class="link-underline font-body-md text-[15px] text-text-primary hover:opacity-60 transition-opacity flex items-center gap-2"
           href="#projects"
         >
-          View Projects
-          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          View Projects <span aria-hidden="true">&rarr;</span>
         </a>
         <a
-          class="px-8 py-3 rounded-card border border-border-muted text-text-primary hover:border-primary/50 hover:bg-surface-container-low transition-all font-body-md text-body-md flex items-center gap-2"
+          class="link-underline font-body-md text-[15px] text-text-primary hover:opacity-60 transition-opacity"
           href="https://github.com/Arifrijalf"
           target="_blank"
         >
-          <span class="material-symbols-outlined text-sm">code</span>
           GitHub
         </a>
         <button
           id="download-cv-btn"
-          class="px-8 py-3 rounded-card border border-border-muted text-text-primary hover:border-primary/50 hover:bg-surface-container-low transition-all font-body-md text-body-md flex items-center gap-2"
+          class="link-underline font-body-md text-[15px] text-text-primary hover:opacity-60 transition-opacity"
         >
-          <span class="material-symbols-outlined text-sm">download</span>
           Download CV
         </button>
       </div>
@@ -67,7 +53,7 @@ import profilePhoto from '../assets/profile-photo.jpg';
     <div
       class="col-span-1 lg:col-span-6 mt-12 lg:mt-0 relative flex justify-center items-center"
     >
-      <div class="profile-photo-container">
+      <div class="profile-photo-container" data-reveal data-reveal-delay="1">
         <div class="profile-photo-frame slideshow" id="hero-slideshow">
           <Image
             src={profilePhoto}
