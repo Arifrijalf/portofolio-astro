@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import ModelViewer from './islands/ModelViewer.tsx';
 import projectIncubator from '../assets/project-incubator.jpg';
 import projectIotDashboard from '../assets/project-iot-dashboard.jpg';
 import projectEnergyMonitor from '../assets/project-energy-monitor.jpg';
@@ -26,7 +27,7 @@ const projects = [
   {
     name: 'Smart Energy Monitoring System',
     description:
-      'Designed custom PCB architecture using KiCad for a multi-channel AC/DC energy monitor. Utilized STM32 for high-speed ADC sampling and power factor calculations, providing real-time analytics to reduce industrial power waste.',
+      'Designed custom PCB architecture using KiCad for a multi-channel AC/DC energy monitor. An STM32 handles high-speed ADC sampling and power-factor calculations, feeding real-time analytics that cut industrial power waste.',
     tags: ['STM32', 'KiCad'],
     image: projectEnergyMonitor,
     alt: 'Custom PCB designed for energy monitoring system',
@@ -68,6 +69,17 @@ const projects = [
           </div>
         </article>
       ))}
+    </div>
+    <div class="mt-12" data-reveal>
+      <div class="chip-card p-6">
+        <div class="flex items-baseline justify-between gap-4 flex-wrap">
+          <h3 class="font-display text-xl font-semibold">Interactive 3D Model</h3>
+          <span class="silkscreen text-text-secondary">// DRAG TO ROTATE</span>
+        </div>
+        <div class="mt-6">
+          <ModelViewer client:only="react" />
+        </div>
+      </div>
     </div>
   </div>
 </section>

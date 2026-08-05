@@ -25,23 +25,23 @@
     "semantic_hash": ""
   },
   "src/components/About.astro": {
-    "mtime": 1785932835.2984836,
-    "ast_hash": "b443250a8c2d68b0172c03c5591275a9",
+    "mtime": 1785940000.085942,
+    "ast_hash": "0170f2616b64ef12ceeca6762647273a",
     "semantic_hash": ""
   },
   "src/components/Contact.astro": {
-    "mtime": 1785931810.294104,
-    "ast_hash": "ee5056bc13a7b01592547000fdf3be2c",
+    "mtime": 1785940573.8358893,
+    "ast_hash": "792a04be9d37dee33fb10bf2f4090541",
     "semantic_hash": ""
   },
   "src/components/GitHub.astro": {
-    "mtime": 1785931809.8331363,
-    "ast_hash": "894ad1498c2abd4d8a66f5926e591751",
+    "mtime": 1785940003.9848301,
+    "ast_hash": "1008076bc814fc5cd8aa760032998bd7",
     "semantic_hash": ""
   },
   "src/layouts/BaseLayout.astro": {
-    "mtime": 1785930860.3520687,
-    "ast_hash": "73e41fbd15c2d3853be0dc335b2a1283",
+    "mtime": 1785940583.7336173,
+    "ast_hash": "8b524918e5a54b2d12a7c692c88b0d17",
     "semantic_hash": ""
   },
   "src/pages/index.astro": {
@@ -50,8 +50,8 @@
     "semantic_hash": ""
   },
   "src/scripts/main.ts": {
-    "mtime": 1785932874.3114204,
-    "ast_hash": "4c9611c400e08df38f8945316cacc81c",
+    "mtime": 1785940571.2479603,
+    "ast_hash": "562d6b54b962bf407271aeddf894327a",
     "semantic_hash": ""
   },
   "tsconfig.json": {
@@ -115,13 +115,13 @@
     "semantic_hash": ""
   },
   "src/components/Certificates.astro": {
-    "mtime": 1785931809.2251787,
-    "ast_hash": "faca5c14fb0d5971615a87282025867c",
+    "mtime": 1785940003.259851,
+    "ast_hash": "977b966398c448db8efbfd068f3ce8cc",
     "semantic_hash": ""
   },
   "src/components/Experience.astro": {
-    "mtime": 1785931808.9092007,
-    "ast_hash": "95e553e7e9899e3a19aa852a30f1a970",
+    "mtime": 1785940568.7490292,
+    "ast_hash": "a9c514c024a6f770ef90ede62f1082de",
     "semantic_hash": ""
   },
   "src/components/Footer.astro": {
@@ -130,18 +130,18 @@
     "semantic_hash": ""
   },
   "src/components/Hero.astro": {
-    "mtime": 1785931806.9513383,
-    "ast_hash": "ccb65fda7a02d8b29bc325789b894b9f",
+    "mtime": 1785941348.2579212,
+    "ast_hash": "c0b8fd2b772e0473aa135d6076a019bf",
     "semantic_hash": ""
   },
   "src/components/Navigation.astro": {
-    "mtime": 1785932191.819139,
-    "ast_hash": "742842dad313fe8ff7632da62bc37938",
+    "mtime": 1785940005.662782,
+    "ast_hash": "3458d259bd3d9980c960b65e8ebd8451",
     "semantic_hash": ""
   },
   "src/components/Projects.astro": {
-    "mtime": 1785931808.4162352,
-    "ast_hash": "fef45831e00acc64aa9217744c61114a",
+    "mtime": 1785941348.7479966,
+    "ast_hash": "4d60fe571dbfd28b5297bd66a6cae8f6",
     "semantic_hash": ""
   },
   "src/components/Skills.astro": {
@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "src/components/islands/ThreeScene.tsx": {
-    "mtime": 1785930752.5980065,
-    "ast_hash": "b026f96d02362791d2d490131f642f9c",
+    "mtime": 1785941336.7861547,
+    "ast_hash": "efe9b80d2e244542df2809dcc648b8ba",
     "semantic_hash": ""
   },
   "ARCHITECTURE.md": {
@@ -177,6 +177,16 @@
   "STYLE.md": {
     "mtime": 1785933410.2643774,
     "ast_hash": "e390674c764d0a51c5068af4a01845f5",
+    "semantic_hash": ""
+  },
+  "src/components/islands/ModelViewer.tsx": {
+    "mtime": 1785941340.5767393,
+    "ast_hash": "ffe409d1d19fb40d1711d3767332506b",
+    "semantic_hash": ""
+  },
+  ".impeccable/critique/2026-08-05T14-21-55Z__src-pages-index-astro.md": {
+    "mtime": 1785939715.3382835,
+    "ast_hash": "d7f18179442455f028b2747af971f39a",
     "semantic_hash": ""
   }
 }

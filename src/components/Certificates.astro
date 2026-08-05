@@ -9,14 +9,19 @@ const certificates = [
     <div data-reveal>
       <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Certifications</h2>
     </div>
-    <div class="mt-12 grid gap-6 md:grid-cols-3">
+    <div class="mt-12">
       {certificates.map((c) => (
-        <div class="chip-card p-6">
+        <a
+          href="https://aws.amazon.com/certification/aws-certified-iot-specialty/"
+          target="_blank"
+          rel="noopener"
+          class="chip-card block max-w-md p-6 no-underline"
+        >
           <i data-lucide="award" class="inline-block h-8 w-8 text-copper"></i>
           <p class="mt-4 font-display font-semibold text-lg">{c.name}</p>
           <p class="silkscreen text-text-secondary mt-1">{c.issuer}</p>
-          <p class="pin-label mt-4">VALID // VERIFIED</p>
-        </div>
+          <p class="pin-label mt-4">AWS CERTIFIED // VERIFY ONLINE</p>
+        </a>
       ))}
     </div>
   </div>

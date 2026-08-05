@@ -1,7 +1,4 @@
 ---
-const graphUrl =
-  'https://github-readme-activity-graph.vercel.app/graph?username=Arifrijalf&bg_color=000000&color=ffffff&line=888888&point=ffffff&area=true&area_color=1c1c1c&hide_border=false&custom_title=Contribution%20Graph';
----
 
 <section id="github" class="relative py-24">
   <div class="max-w-6xl mx-auto px-5">
@@ -9,13 +6,8 @@ const graphUrl =
       <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Open Source</h2>
       <p class="mt-4 text-text-secondary">GitHub Contribution Activity</p>
     </div>
-    <div class="mt-10 overflow-x-auto no-scrollbar" data-reveal data-reveal-delay="1">
-      <img
-        src={graphUrl}
-        alt="Arif Rijal Fadhilah GitHub Activity Graph"
-        loading="lazy"
-        class="min-w-[700px]"
-      />
+    <div class="mt-10 overflow-x-auto">
+      <div id="gh-graph" class="min-w-[700px]"></div>
     </div>
     <div class="mt-6" data-reveal>
       <a href="https://github.com/Arifrijalf" target="_blank" rel="noopener" class="chip-card inline-block px-5 py-3 text-trace no-underline">

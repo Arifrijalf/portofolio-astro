@@ -4,18 +4,18 @@ const jobs = [
     role: 'IoT Developer',
     company: 'Freelancer • 2020 - present',
     bullets: [
-      'Developed cloud-connected monitoring systems.',
-      'Integrated various sensors and communication protocols (I2C, SPI, UART).',
-      'Built internal dashboard tools using React.',
+      'Built cloud-connected monitoring systems that stream sensor telemetry over MQTT to live dashboards.',
+      'Wired and integrated sensors over I2C, SPI, and UART — from temperature probes to motion and environmental modules.',
+      'Shipped React dashboards visualizing real-time device states and environmental metrics.',
     ],
   },
   {
     role: 'Internship',
-    company: 'PT. Sat Nusapersada Tbk • Jan 2023 - Juny 2023',
+    company: 'PT. Sat Nusapersada Tbk • Jan 2023 - June 2023',
     bullets: [
-      'Assisted in the development and testing of IoT devices.',
-      'Collaborated with cross-functional teams to define product requirements.',
-      'Documented technical specifications and user guides.',
+      'Assisted firmware bring-up and functional testing of production IoT devices.',
+      'Worked across hardware, firmware, and QA teams to lock down product requirements before handoff.',
+      'Wrote technical specifications and end-user guides that cleared documentation for manufacturing.',
     ],
   },
 ];
@@ -29,7 +29,7 @@ const jobs = [
     <div class="relative mt-12 border-l border-gridline pl-8 md:pl-12">
       {jobs.map((j, i) => (
         <div class="relative pb-14 last:pb-0" data-reveal data-reveal-delay={String(i)}>
-          <span class="absolute -left-[37px] md:-left-[49px] top-1.5 inline-block h-3 w-3 bg-trace shadow-[0_0_12px_rgba(0,229,255,0.8)] md:-left-[49px]"></span>
+          <span class="absolute -left-[37px] md:-left-[49px] top-1.5 inline-block h-3 w-3 bg-trace shadow-[0_0_12px_rgba(0,229,255,0.8)]"></span>
           <h3 class="font-display text-xl font-semibold">{j.role}</h3>
           <p class="silkscreen copper mt-1">{j.company}</p>
           <ul class="mt-4 list-none m-0 p-0 space-y-2 text-text-secondary leading-relaxed">
