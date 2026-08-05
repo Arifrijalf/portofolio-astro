@@ -3,8 +3,8 @@ import * as THREE from "three";
 import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader.js";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 
-const OBJ_URL = "/OBJ_PCB_dashboard-iot2_2.obj";
-const MTL_URL = "/OBJ_PCB_dashboard-iot2_2.mtl";
+const OBJ_URL = "/OBJ_PCB_IOT-V2.obj";
+const MTL_URL = "/OBJ_PCB_IOT-V2.mtl";
 
 export default function ModelViewer() {
   const ref = useRef<HTMLDivElement>(null);
@@ -157,6 +157,13 @@ export default function ModelViewer() {
 
   return (
     <div className="relative">
+      {status !== "ready" && (
+        <img
+          src="/PCB_IOT-V2-copy_2026-08-05.svg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-contain"
+        />
+      )}
       <div ref={ref} className="h-[480px] w-full" style={{ touchAction: "none" }} aria-hidden="true" />
       {status !== "ready" && (
         <div className="absolute inset-0 flex items-center justify-center bg-panel/60 font-mono text-sm text-text-secondary pointer-events-none">
