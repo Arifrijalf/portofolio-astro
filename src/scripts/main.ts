@@ -14,6 +14,7 @@ function init() {
   initContactForm();
   initDownloadCv();
   initGitHubGraph();
+  initTypewriter();
 }
 
 function initIcons() {
@@ -146,7 +147,8 @@ function initBoot() {
   const screen = document.getElementById('boot-screen');
   const percentEl = document.getElementById('boot-percent');
   const fillEl = document.getElementById('boot-fill');
-  if (!screen || !percentEl || !fillEl) return;
+  const progressText = document.getElementById('boot-progress');
+  if (!screen || !percentEl || !fillEl || !progressText) return;
 
   let interval: number | undefined;
   const skip = () => {
@@ -163,6 +165,8 @@ function initBoot() {
     skip();
     return;
   }
+
+  progressText.textContent = 'BOOT/INITIALIZING';
 
   let percent = 0;
   interval = setInterval(() => {
@@ -355,6 +359,59 @@ function initGitHubGraph() {
     .catch(() => {
       target.innerHTML = '<span class="silkscreen text-text-secondary">GRAPH UNAVAILABLE</span>';
     });
+}
+
+function initTypewriter() {
+  const els = document.querySelectorAll('[data-typewriter]');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach((el) => {
+      el.textContent = el.dataset.typewriter || '';
+      el.classList.add('typewriter-done');
+    });
+    return;
+  }
+
+  els.forEach((el) => {
+    const text = el.dataset.typewriter || el.textContent;
+    const speed = parseInt(el.dataset.typewriterSpeed || '50', 10);
+    const delay = parseInt(el.dataset.typewriterDelay || '0', 10);
+    const cursor = el.dataset.typewriterCursor !== 'false';
+
+    el.textContent = '';
+    el.style.opacity = '1';
+
+    if (cursor) {
+      const cursorEl = document.createElement('span');
+      cursorEl.className = 'typewriter-cursor';
+      cursorEl.textContent = '_';
+      cursorEl.style.animation = 'blink 1s step-end infinite';
+      cursorEl.style.marginLeft = '2px';
+      el.appendChild(cursorEl);
+    }
+
+    let i = 0;
+    const type = () => {
+      if (i < text.length) {
+        if (cursor) {
+          el.insertBefore(document.createTextNode(text[i]), el.querySelector('.typewriter-cursor'));
+        } else {
+          el.textContent += text[i];
+        }
+        i++;
+        setTimeout(type, speed);
+      } else if (cursor) {
+        const cursorEl = el.querySelector('.typewriter-cursor');
+        if (cursorEl) cursorEl.style.animation = 'none';
+        cursorEl.textContent = '';
+      }
+    };
+
+    if (delay > 0) {
+      setTimeout(type, delay);
+    } else {
+      type();
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', init);

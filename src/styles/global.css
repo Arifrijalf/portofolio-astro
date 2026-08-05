@@ -329,15 +329,6 @@ a {
   border-bottom: 1px solid #1a2433;
 }
 
-._gotcha {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
-
 .form-status {
   font-family: "Space Mono", monospace;
   font-size: 12px;
@@ -350,4 +341,21 @@ a {
 
 .form-status.error {
   color: #ff4444;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  color: #00e5ff;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-cursor {
+    animation: none !important;
+    opacity: 0;
+  }
 }

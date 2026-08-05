@@ -42,7 +42,14 @@ const links = [
         data-reveal
         data-reveal-delay="1"
       >
-        <input type="text" name="_gotcha" class="_gotcha" tabindex="-1" autocomplete="off" />
+        <input
+          type="checkbox"
+          name="_gotcha"
+          style="display:none; opacity:0; position:absolute; left:-9999px; width:1px; height:1px;"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+        />
         <input type="hidden" name="_subject" value="Portfolio Contact" />
 
         <label class="flex flex-col gap-2">
