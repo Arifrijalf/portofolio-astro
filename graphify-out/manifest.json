@@ -70,8 +70,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1785816530.8191676,
-    "ast_hash": "95087685015c2eb59c2a6f15ded86030",
+    "mtime": 1785933385.2767715,
+    "ast_hash": "0fa4288f5ca3451756bb33d61d13979b",
     "semantic_hash": ""
   },
   "public/favicon-v2.png": {
@@ -152,6 +152,31 @@
   "src/components/islands/ThreeScene.tsx": {
     "mtime": 1785930752.5980065,
     "ast_hash": "b026f96d02362791d2d490131f642f9c",
+    "semantic_hash": ""
+  },
+  "ARCHITECTURE.md": {
+    "mtime": 1785933423.8847075,
+    "ast_hash": "752d64925b00a762ef144e501d9f449f",
+    "semantic_hash": ""
+  },
+  "CONTENT.md": {
+    "mtime": 1785933434.3609617,
+    "ast_hash": "794f55377d198b9b71040485e049d51c",
+    "semantic_hash": ""
+  },
+  "DEPLOYMENT.md": {
+    "mtime": 1785933445.9372423,
+    "ast_hash": "664d03567b41c3202f09bf605ea0c900",
+    "semantic_hash": ""
+  },
+  "DESIGN.md": {
+    "mtime": 1785933397.7860749,
+    "ast_hash": "b3824359d88b45a03efd1b12d600358e",
+    "semantic_hash": ""
+  },
+  "STYLE.md": {
+    "mtime": 1785933410.2643774,
+    "ast_hash": "e390674c764d0a51c5068af4a01845f5",
     "semantic_hash": ""
   }
 }
