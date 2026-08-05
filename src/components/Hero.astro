@@ -1,94 +1,33 @@
 ---
-import { Image } from 'astro:assets';
-import profilePhoto from '../assets/profile-photo.jpg';
+import ThreeScene from './islands/ThreeScene.tsx';
 ---
 
-<section
-  class="min-h-screen pt-[120px] pb-section-padding px-margin-page flex items-center"
-  id="home"
->
-  <div
-    class="w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center"
-  >
-    {/* Left: Info */}
-    <div class="col-span-1 lg:col-span-6 space-y-8 z-10">
-      <p class="font-body-md text-[15px] text-text-secondary" data-reveal data-reveal-delay="1">Portofolio</p>
-      <div class="space-y-4">
-        <h1 class="font-headline-xl text-headline-xl text-text-primary font-bold" data-reveal data-reveal-delay="2">
-          Arif Rijal Fadhilah
-        </h1>
-        <h2 class="font-headline-md text-[21px] text-text-secondary" data-reveal data-reveal-delay="3">
-          Embedded Systems Engineer <br />
-          & IoT Developer
-        </h2>
-      </div>
-      <p class="font-body-md text-[15px] text-text-secondary max-w-xl" data-reveal data-reveal-delay="4">
-        Bridging the gap between hardware and software. Specializing in
-        microcontrollers, real-time control systems, and robust IoT
-        architectures for industrial and consumer applications.
+<section id="top" class="relative min-h-screen flex items-center overflow-hidden">
+  <div class="relative z-10 w-full max-w-6xl mx-auto px-5 pt-24 pb-16 grid gap-12 lg:grid-cols-2 lg:items-center">
+    <div data-reveal>
+      <p class="silkscreen trace mb-4">
       </p>
-      <div class="flex flex-wrap gap-5 pt-4" data-reveal data-reveal-delay="5">
-        <a
-          class="link-underline font-body-md text-[15px] text-text-primary hover:opacity-60 transition-opacity flex items-center gap-2"
-          href="#projects"
-        >
-          View Projects <span aria-hidden="true">&rarr;</span>
-        </a>
-        <a
-          class="link-underline font-body-md text-[15px] text-text-primary hover:opacity-60 transition-opacity"
-          href="https://github.com/Arifrijalf"
-          target="_blank"
-        >
-          GitHub
-        </a>
-        <button
-          id="download-cv-btn"
-          class="link-underline font-body-md text-[15px] text-text-primary hover:opacity-60 transition-opacity"
-        >
-          Download CV
-        </button>
+      <h1 class="font-display text-4xl md:text-6xl leading-tight font-bold tracking-tight">
+        Arif Rijal Fadhilah
+      </h1>
+      <p class="silkscreen copper mt-4">→ Embedded Systems Engineer &amp; IoT Developer</p>
+      <p class="mt-6 text-text-secondary max-w-xl leading-relaxed">
+        Bridging the gap between hardware and software. Specializing in microcontrollers, real-time
+        control systems, and robust IoT architectures for industrial and consumer applications.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href="#projects" class="chip-card px-5 py-3 text-trace no-underline">View Projects <i data-lucide="arrow-right" class="inline-block h-4 w-4"></i></a>
+        <a href="https://github.com/Arifrijalf" target="_blank" rel="noopener" class="chip-card px-5 py-3 no-underline">GitHub</a>
+        <a href="#contact" id="download-cv-btn" class="chip-card px-5 py-3 text-copper no-underline">Download CV</a>
       </div>
+      <p class="silkscreen mt-10 text-text-secondary">
+        // 00.719&deg;S 100.342&deg;E — PADANG, INDONESIA
+      </p>
     </div>
-    {/* Right: Profile Photo */}
-    <div
-      class="col-span-1 lg:col-span-6 mt-12 lg:mt-0 relative flex justify-center items-center"
-    >
-      <div class="profile-photo-container" data-reveal data-reveal-delay="1">
-        <div class="profile-photo-frame slideshow" id="hero-slideshow">
-          <Image
-            src={profilePhoto}
-            alt="Arif Rijal Fadhilah"
-            class="profile-photo-img slide active"
-            decoding="sync"
-            loading="eager"
-            fetchpriority="high"
-            width={420}
-            height={560}
-            widths={[210, 320, 420]}
-            sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 420px"
-          />
-          <video
-            src="/video1.mp4"
-            alt="Arif Rijal Fadhilah in project demo 1"
-            class="profile-photo-img slide"
-            width={420}
-            height={560}
-            playsinline
-            muted
-            preload="metadata"
-          ></video>
-          <video
-            src="/video2.mp4"
-            alt="Arif Rijal Fadhilah in project demo 2"
-            class="profile-photo-img slide"
-            width={420}
-            height={560}
-            playsinline
-            muted
-            preload="metadata"
-          ></video>
-        </div>
-      </div>
+    <div data-reveal data-reveal-delay="1" class="relative">
+      <div class="corner-brackets"></div>
+      <ThreeScene client:only="react" />
     </div>
   </div>
+  <div class="absolute bottom-0 left-0 right-0 h-px trace-line opacity-40"></div>
 </section>

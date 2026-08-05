@@ -1,62 +1,67 @@
-<section class="py-section-padding px-margin-page relative" id="about">
-  <div>
-    <div class="mb-12" data-reveal>
-      <h2 class="font-headline-md text-[21px] text-text-primary font-bold">
-        About Me
-      </h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8" data-reveal data-reveal-delay="1">
-      <div class="md:col-span-2">
-        <h3 class="font-headline-md text-[21px] text-text-primary font-bold mb-4">
-          Engineering Philosophy
-        </h3>
-        <p class="font-body-md text-[15px] text-text-secondary mb-4">
-          I believe in building systems that are robust, efficient, and
-          scalable. My passion lies at the intersection of hardware and
-          software, where tangible electronics meet elegant code.
+---
+import { Image } from 'astro:assets';
+import profilePhoto from '../assets/profile-photo.jpg';
+
+const education = [
+  { school: 'Electronics Engineering', detail: 'Padang State Polytechnic • 2024-present' },
+  { school: 'State Vocational High School 1 Padang', detail: '2021-2024' },
+];
+
+const interests = ['Robotics & Automation', 'Open Source Hardware', 'Machine Learning at the Edge'];
+---
+
+<section id="about" class="relative py-24">
+  <div class="max-w-6xl mx-auto px-5 grid gap-16 lg:grid-cols-[1fr_380px]">
+    <div data-reveal>
+      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Engineering Philosophy</h2>
+      <div class="mt-8 space-y-5 text-text-secondary leading-relaxed">
+        <p>
+          I believe in building systems that are robust, efficient, and scalable. My passion lies at
+          the intersection of hardware and software, where tangible electronics meet elegant code.
         </p>
-        <p class="font-body-md text-[15px] text-text-secondary">
-          Whether it's optimizing power consumption on a battery-operated sensor
-          node or designing a complex IoT dashboard, I approach every problem
-          with an engineering mindset and a commitment to quality.
+        <p>
+          Whether it's optimizing power consumption on a battery-operated sensor node or designing a
+          complex IoT dashboard, I approach every problem with an engineering mindset and a
+          commitment to quality.
         </p>
-        <p class="font-body-md text-[15px] text-text-primary font-bold mt-4">
-          So brilliant, so smart, so handsome, so kind, and so
-          loving—that's Arif Rijal Fadhilah
+        <p class="text-text-primary font-semibold">
+          So brilliant, so smart, so handsome, so kind, and so loving—that's Arif Rijal Fadhilah
         </p>
       </div>
-      <div class="space-y-8">
-        <div>
-          <h3 class="font-headline-md text-[21px] text-text-primary font-bold mb-4">
-            Education
-          </h3>
-          <div class="space-y-4">
-            <div>
-              <p class="font-bold text-text-primary">Electronics Engineering</p>
-              <p class="text-text-secondary text-sm">
-                Padang State Polytechnic • 2024-present
-              </p>
+
+      <div class="mt-12 grid gap-8 md:grid-cols-2">
+        <div class="chip-card p-6">
+          <p class="silkscreen trace mb-4">// EDUCATION</p>
+          {education.map((e) => (
+            <div class="mb-4 last:mb-0">
+              <p class="font-display font-semibold text-text-primary">{e.school}</p>
+              <p class="silkscreen text-text-secondary mt-1">{e.detail}</p>
             </div>
-            <div>
-              <p class="font-bold text-text-primary">
-                State Vocational High School 1 Padang
-              </p>
-              <p class="text-text-secondary text-sm">2021 - 2024</p>
-            </div>
-          </div>
+          ))}
         </div>
-        <div>
-          <h3 class="font-headline-md text-[21px] text-text-primary font-bold mb-4">
-            Interests
-          </h3>
-          <ul
-            class="text-text-secondary text-sm space-y-2 list-disc list-inside"
-          >
-            <li>Robotics & Automation</li>
-            <li>Open Source Hardware</li>
-            <li>Machine Learning at the Edge</li>
+        <div class="chip-card p-6">
+          <p class="silkscreen trace mb-4">// INTERESTS</p>
+          <ul class="list-none m-0 p-0 space-y-3">
+            {interests.map((i) => (
+              <li class="silkscreen text-text-primary flex items-center gap-3">
+                <span class="inline-block h-1.5 w-1.5 bg-copper"></span>
+                {i}
+              </li>
+            ))}
           </ul>
         </div>
+      </div>
+    </div>
+
+    <div data-reveal data-reveal-delay="1" class="relative self-start lg:sticky lg:top-24">
+      <div class="corner-brackets chip-card p-3">
+        <Image
+          src={profilePhoto}
+          alt="Arif Rijal Fadhilah"
+          class="block w-full object-cover"
+          widths={[380, 760]}
+          sizes="(max-width: 768px) 90vw, 380px"
+        />
       </div>
     </div>
   </div>

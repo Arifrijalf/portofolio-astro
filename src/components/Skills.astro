@@ -1,69 +1,40 @@
-<section class="py-section-padding px-margin-page relative" id="skills">
-<div>
-<div class="mb-12" data-reveal>
-<h2 class="font-headline-md text-[21px] text-text-primary font-bold">
-  Technical Skills
-</h2>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-reveal data-reveal-delay="1">
-<div>
-  <h3 class="font-headline-md text-[20px] text-text-primary font-bold mb-4">Embedded</h3>
-  <div class="flex flex-wrap gap-x-4 gap-y-1">
-    <span class="text-sm text-text-secondary">ESP32</span>
-    <span class="text-sm text-text-secondary">STM32</span>
-    <span class="text-sm text-text-secondary">Arduino</span>
-    <span class="text-sm text-text-secondary">Raspberry Pi</span>
+---
+const categories = [
+  { name: 'Embedded', items: ['ESP32', 'STM32', 'Arduino', 'Raspberry Pi'] },
+  { name: 'Programming', items: ['C/C++', 'Python', 'JavaScript', 'Rust'] },
+  { name: 'Frontend', items: ['React', 'Tailwind CSS', 'HTML/CSS'] },
+  { name: 'Backend', items: ['Node.js', 'Express', 'MQTT'] },
+  { name: 'Database', items: ['MongoDB', 'PostgreSQL', 'InfluxDB'] },
+  { name: 'Eng. Tools', items: ['KiCad', 'Altium', 'SolidWorks'] },
+  { name: 'Cloud', items: ['AWS IoT', 'Docker', 'Linux'] },
+];
+---
+
+<section id="skills" class="relative py-24">
+  <div class="max-w-6xl mx-auto px-5">
+    <div data-reveal>
+      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Technical Skills</h2>
+    </div>
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {categories.map((cat, i) => (
+        <div
+          class="chip-card p-6"
+          data-reveal
+          data-reveal-delay={String(i)}
+        >
+          <div class="flex items-center justify-between">
+            <p class="silkscreen trace">{cat.name}</p>
+            <span class="pin-label">PIN-{String(i + 1).padStart(2, '0')}</span>
+          </div>
+          <div class="mt-4 flex flex-wrap gap-2">
+            {cat.items.map((item) => (
+              <span class="silkscreen border border-gridline px-3 py-1.5 text-text-secondary">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
-</div>
-<div>
-  <h3 class="font-headline-md text-[20px] text-text-primary font-bold mb-4">Programming</h3>
-  <div class="flex flex-wrap gap-x-4 gap-y-1">
-    <span class="text-sm text-text-secondary">C/C++</span>
-    <span class="text-sm text-text-secondary">Python</span>
-    <span class="text-sm text-text-secondary">JavaScript</span>
-    <span class="text-sm text-text-secondary">Rust</span>
-  </div>
-</div>
-<div>
-  <h3 class="font-headline-md text-[20px] text-text-primary font-bold mb-4">Frontend</h3>
-  <div class="flex flex-wrap gap-x-4 gap-y-1">
-    <span class="text-sm text-text-secondary">React</span>
-    <span class="text-sm text-text-secondary">Tailwind CSS</span>
-    <span class="text-sm text-text-secondary">HTML/CSS</span>
-  </div>
-</div>
-<div>
-  <h3 class="font-headline-md text-[20px] text-text-primary font-bold mb-4">Backend</h3>
-  <div class="flex flex-wrap gap-x-4 gap-y-1">
-    <span class="text-sm text-text-secondary">Node.js</span>
-    <span class="text-sm text-text-secondary">Express</span>
-    <span class="text-sm text-text-secondary">MQTT</span>
-  </div>
-</div>
-<div>
-  <h3 class="font-headline-md text-[20px] text-text-primary font-bold mb-4">Database</h3>
-  <div class="flex flex-wrap gap-x-4 gap-y-1">
-    <span class="text-sm text-text-secondary">MongoDB</span>
-    <span class="text-sm text-text-secondary">PostgreSQL</span>
-    <span class="text-sm text-text-secondary">InfluxDB</span>
-  </div>
-</div>
-<div>
-  <h3 class="font-headline-md text-[20px] text-text-primary font-bold mb-4">Eng. Tools</h3>
-  <div class="flex flex-wrap gap-x-4 gap-y-1">
-    <span class="text-sm text-text-secondary">KiCad</span>
-    <span class="text-sm text-text-secondary">Altium</span>
-    <span class="text-sm text-text-secondary">SolidWorks</span>
-  </div>
-</div>
-<div>
-  <h3 class="font-headline-md text-[20px] text-text-primary font-bold mb-4">Cloud</h3>
-  <div class="flex flex-wrap gap-x-4 gap-y-1">
-    <span class="text-sm text-text-secondary">AWS IoT</span>
-    <span class="text-sm text-text-secondary">Docker</span>
-    <span class="text-sm text-text-secondary">Linux</span>
-  </div>
-</div>
-</div>
-</div>
 </section>

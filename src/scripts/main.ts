@@ -1,399 +1,244 @@
-import { createIcons } from 'lucide';
+import { createIcons, icons } from 'lucide';
 
-document.documentElement.classList.add('js-anim');
+const MIN_SUBMIT_INTERVAL = 5000;
+const CV_PATH = '/ArifRijalFadhilah_CV.pdf';
 
-function toggleHireModal() {
-    const modal = document.getElementById('hire-modal');
-    if (!modal) return;
-    modal.classList.toggle('hidden');
-    modal.classList.toggle('flex');
-    createIcons();
+function init() {
+  document.documentElement.classList.add('js-anim');
+  initIcons();
+  initCursor();
+  initReveal();
+  initNav();
+  initNavTilt();
+  initBoot();
+  initContactForm();
+  initDownloadCv();
 }
 
-function toggleMobileMenu() {
-    const menu = document.getElementById('mobile-menu');
-    const icon = document.getElementById('mobile-menu-icon');
-    if (!menu || !icon) return;
-    const isOpen = menu.classList.contains('is-open');
-    if (isOpen) {
-        menu.classList.remove('is-open');
-        icon.textContent = '+';
-    } else {
-        menu.classList.add('is-open');
-        icon.textContent = '\u2013';
-    }
+function initIcons() {
+  createIcons({ icons });
+}
+
+function initCursor() {
+  const cursor = document.getElementById('cursor');
+  if (!cursor || window.matchMedia('(pointer: coarse)').matches) return;
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let cursorX = mouseX;
+  let cursorY = mouseY;
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+  const loop = () => {
+    cursorX += (mouseX - cursorX) * 0.2;
+    cursorY += (mouseY - cursorY) * 0.2;
+    cursor.style.transform = `translate(${cursorX - 10}px, ${cursorY - 10}px)`;
+    requestAnimationFrame(loop);
+  };
+  loop();
+}
+
+function initReveal() {
+  const els = document.querySelectorAll('[data-reveal]');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach((el) => el.classList.add('is-visible'));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+  );
+  els.forEach((el) => io.observe(el));
+}
+
+function initNav() {
+  const nav = document.getElementById('main-nav');
+  const onScroll = () => {
+    if (!nav) return;
+    nav.classList.toggle('is-scrolled', window.scrollY > 50);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#') return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      closeMobileMenu();
+    });
+  });
+
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const openIcon = document.getElementById('menu-open');
+  const closeIcon = document.getElementById('menu-close');
+  btn?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('is-open');
+    if (menu) menu.style.maxHeight = open ? menu.scrollHeight + 'px' : '0';
+    if (openIcon) openIcon.classList.toggle('hidden', !!open);
+    if (closeIcon) closeIcon.classList.toggle('hidden', !open);
+    btn.setAttribute('aria-expanded', String(open));
+  });
+}
+
+function initNavTilt() {
+  const fine = window.matchMedia('(pointer: fine)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fine || reduced) return;
+  document.querySelectorAll('[data-nav]').forEach((el) => {
+    let rx = 0, ry = 0, tx = 0, ty = 0;
+    let raf = 0;
+    const lerp = () => {
+      rx += (tx - rx) * 0.15;
+      ry += (ty - ry) * 0.15;
+      el.style.setProperty('--rx', `${rx.toFixed(2)}deg`);
+      el.style.setProperty('--ry', `${ry.toFixed(2)}deg`);
+      if (Math.abs(tx - rx) > 0.01 || Math.abs(ty - ry) > 0.01) {
+        raf = requestAnimationFrame(lerp);
+      } else {
+        raf = 0;
+      }
+    };
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      ty = -y * 8;
+      tx = x * 8;
+      if (!raf) raf = requestAnimationFrame(lerp);
+    });
+    el.addEventListener('mouseleave', () => {
+      tx = 0;
+      ty = 0;
+      if (!raf) raf = requestAnimationFrame(lerp);
+    });
+  });
 }
 
 function closeMobileMenu() {
-    const menu = document.getElementById('mobile-menu');
-    const icon = document.getElementById('mobile-menu-icon');
-    if (!menu || !icon) return;
-    menu.classList.remove('is-open');
-    icon.textContent = '+';
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('mobile-menu-btn');
+  if (menu) menu.classList.remove('is-open');
+  if (menu) menu.style.maxHeight = '0';
+  const openIcon = document.getElementById('menu-open');
+  const closeIcon = document.getElementById('menu-close');
+  if (openIcon) openIcon.classList.remove('hidden');
+  if (closeIcon) closeIcon.classList.add('hidden');
+  btn?.setAttribute('aria-expanded', 'false');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initBoot() {
+  const screen = document.getElementById('boot-screen');
+  const percentEl = document.getElementById('boot-percent');
+  const fillEl = document.getElementById('boot-fill');
+  if (!screen || !percentEl || !fillEl) return;
+  let percent = 0;
+  const interval = setInterval(() => {
+    percent += Math.floor(Math.random() * 10) + 5;
+    if (percent >= 100) {
+      percent = 100;
+      clearInterval(interval);
+      percentEl.textContent = '100%';
+      fillEl.style.width = '100%';
+      screen.classList.add('boot-done');
+      setTimeout(() => screen.remove(), 900);
+    } else {
+      percentEl.textContent = percent + '%';
+      fillEl.style.width = percent + '%';
+    }
+  }, 90);
+  setTimeout(() => {
+    if (screen.parentElement) {
+      percentEl.textContent = '100%';
+      fillEl.style.width = '100%';
+      clearInterval(interval);
+      screen.classList.add('boot-done');
+      setTimeout(() => screen.remove(), 900);
+    }
+  }, 4000);
+}
+
+async function initContactForm() {
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  const submitBtn = document.getElementById('submit-btn');
+  const btnText = submitBtn?.querySelector('.btn-text');
+  if (!form || !status || !submitBtn) return;
+
+  let lastSubmit = 0;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const now = Date.now();
+    if (now - lastSubmit < MIN_SUBMIT_INTERVAL) {
+      status.textContent = 'Please wait a moment before sending again.';
+      status.className = 'form-status error';
+      return;
+    }
+
+    const formData = new FormData(form);
+    const name = String(formData.get('name') || '');
+    const message = String(formData.get('message') || '');
+    if (name.trim().length < 3 || message.trim().length < 20) {
+      status.textContent = 'Name must be at least 3 characters and message at least 20.';
+      status.className = 'form-status error';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    if (btnText) btnText.textContent = 'Transmitting...';
+    status.textContent = '';
+    status.className = 'form-status';
+
     try {
-        createIcons();
-    } catch {}
-
-    const slideshow = document.getElementById('hero-slideshow');
-    if (slideshow) {
-        const slides = slideshow.querySelectorAll('.slide');
-        let current = 0;
-        let timer = null;
-        let loopCount = 0;
-        const VIDEO_LOOPS = 2;
-
-        function preloadVideo(slide) {
-            if (slide.tagName !== 'VIDEO') return Promise.resolve();
-            return new Promise(resolve => {
-                const timeout = setTimeout(() => resolve(), 5000);
-                slide.preload = 'metadata';
-                slide.load();
-                if (slide.readyState >= 2) { clearTimeout(timeout); resolve(); return; }
-                const onReady = () => { clearTimeout(timeout); resolve(); slide.removeEventListener('loadeddata', onReady); };
-                slide.addEventListener('loadeddata', onReady);
-                slide.addEventListener('error', () => { clearTimeout(timeout); resolve(); });
-            });
-        }
-
-        const videoSlides = Array.from(slides).filter(s => s.tagName === 'VIDEO');
-        Promise.all(videoSlides.map(preloadVideo)).then(() => {
-
-            function goToNext() {
-                clearTimeout(timer);
-                const prev = slides[current];
-
-                if (prev.tagName === 'VIDEO') {
-                    prev.pause();
-                    prev.currentTime = 0;
-                    prev.removeEventListener('ended', onVideoEnded);
-                }
-                prev.classList.remove('active');
-
-                current = (current + 1) % slides.length;
-                loopCount = 0;
-
-                const next = slides[current];
-                next.classList.add('active');
-
-if (next.tagName === 'VIDEO') {
-    next.currentTime = 0;
-    next.play().catch(e => void e);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
+      if (response.ok) {
+        lastSubmit = now;
+        status.textContent =
+          'Message transmitted successfully. I will respond shortly.';
+        status.className = 'form-status success';
+        form.reset();
+      } else {
+        throw new Error('Bad response');
+      }
+    } catch {
+      status.textContent =
+        'Transmission failed. Please try again or contact me directly via email.';
+      status.className = 'form-status error';
+    } finally {
+      submitBtn.disabled = false;
+      if (btnText) btnText.textContent = 'Send Message ';
+    }
+  });
 }
 
-                scheduleNext();
-            }
-
-            function onVideoEnded() {
-                loopCount++;
-                if (loopCount >= VIDEO_LOOPS) {
-                    goToNext();
-                } else {
-                    slides[current].currentTime = 0;
-slides[current].play().catch(e => void e);
-                }
-            }
-
-            function scheduleNext() {
-                clearTimeout(timer);
-                const slide = slides[current];
-                if (slide.tagName === 'VIDEO') {
-                    slide.addEventListener('ended', onVideoEnded);
-                } else {
-                    timer = setTimeout(goToNext, 4000);
-                }
-            }
-
-            if (slides[current].tagName === 'VIDEO') {
-                slides[current].play().catch(e => void e);
-            }
-            scheduleNext();
-        });
+function initDownloadCv() {
+  const btn = document.getElementById('download-cv-btn');
+  btn?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(CV_PATH, { method: 'HEAD' });
+      if (res.ok && (res.headers.get('content-type') || '').includes('pdf')) {
+        window.open(CV_PATH, '_blank');
+      } else {
+        alert('Maaf, CV belum di-update');
+      }
+    } catch {
+      alert('Maaf, CV belum di-update');
     }
+  });
+}
 
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleMobileMenu();
-        });
-    }
-
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            closeMobileMenu();
-        });
-    });
-
-    document.querySelectorAll('.mobile-hire-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            closeMobileMenu();
-            toggleHireModal();
-        });
-    });
-
-    document.querySelectorAll('.hire-btn').forEach(btn => {
-        btn.addEventListener('click', toggleHireModal);
-    });
-
-    document.addEventListener('click', (e) => {
-        const menu = document.getElementById('mobile-menu');
-        const btn = document.getElementById('mobile-menu-btn');
-        if (menu && !menu.classList.contains('is-open')) return;
-        if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
-            closeMobileMenu();
-        }
-    });
-
-    const hireModal = document.getElementById('hire-modal');
-    const closeModalBtn = document.getElementById('close-modal-btn');
-
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleHireModal();
-        });
-    }
-
-    if (hireModal) {
-        hireModal.addEventListener('click', (e) => {
-            if (e.target === hireModal || e.target.classList.contains('backdrop-blur-sm')) {
-                toggleHireModal();
-            }
-        });
-    }
-
-    const mainNav = document.getElementById('main-nav');
-    function updateNavBg() {
-        if (!mainNav) return;
-        if (window.scrollY > 50) {
-            mainNav.classList.add('is-scrolled');
-        } else {
-            mainNav.classList.remove('is-scrolled');
-        }
-    }
-    updateNavBg();
-    window.addEventListener('scroll', updateNavBg, { passive: true });
-
-    document.querySelectorAll('.magnetic-btn').forEach(btn => {
-        let rafId = null;
-        btn.addEventListener('mousemove', (e) => {
-            if (window.innerWidth < 768) return;
-            if (rafId) return;
-            rafId = requestAnimationFrame(() => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                const strength = 0.35;
-                btn.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
-                rafId = null;
-            });
-        });
-        btn.addEventListener('mouseleave', () => {
-            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-            btn.style.transform = 'translate(0, 0)';
-        });
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', (e) => {
-            const targetId = anchor.getAttribute('href');
-            if (!targetId || targetId === '#') return;
-            const target = document.querySelector(targetId);
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-
-    const cvBtn = document.getElementById('download-cv-btn');
-    if (cvBtn) {
-        const CV_PATH = '/ArifRijalFadhilah_CV.pdf';
-
-        fetch(CV_PATH, { method: 'HEAD' })
-            .then(res => {
-                const type = res.headers.get('content-type') || '';
-                if (res.ok && type.includes('pdf')) {
-                    cvBtn.addEventListener('click', () => {
-                        window.open(CV_PATH, '_blank');
-                    });
-                } else {
-                    cvBtn.addEventListener('click', () => {
-                        alert('Maaf, CV belum di-update');
-                    });
-                }
-            })
-            .catch(() => {
-                cvBtn.addEventListener('click', () => {
-                    alert('Maaf, CV belum di-update');
-                });
-            });
-    }
-
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    function updateNav() {
-        let activeId = 'home';
-        const scrollY = window.scrollY || window.pageYOffset;
-
-        sections.forEach((section) => {
-            const offsetTop = section.offsetTop - 150;
-            if (scrollY >= offsetTop) {
-                activeId = section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach((link) => {
-            const isMatch = link.getAttribute('href') === `#${activeId}`;
-            link.classList.remove('text-primary', 'font-bold', 'border-[#106EBE]');
-            link.classList.add('text-on-surface-variant', 'border-transparent');
-            if (isMatch) {
-                link.classList.remove('text-on-surface-variant', 'border-transparent');
-                link.classList.add('text-primary', 'font-bold', 'border-[#106EBE]');
-            }
-        });
-
-        document.querySelectorAll('.mobile-nav-link').forEach(link => {
-            const isMatch = link.getAttribute('href') === `#${activeId}`;
-            link.classList.remove('text-primary', 'font-bold', 'bg-surface-container-low/50');
-            link.classList.add('text-on-surface-variant');
-            if (isMatch) {
-                link.classList.remove('text-on-surface-variant');
-                link.classList.add('text-primary', 'font-bold', 'bg-surface-container-low/50');
-            }
-        });
-    }
-
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                updateNav();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }, { passive: true });
-
-    updateNav();
-
-    const contactForm = document.getElementById('contact-form');
-    const submitBtn = document.getElementById('submit-btn');
-    const formStatus = document.getElementById('form-status');
-
-    // Track last submission time for rate limiting
-    let lastSubmitTime = 0;
-    const MIN_SUBMIT_INTERVAL = 5000; // 5 seconds between submissions
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            // Rate limiting: prevent spam submissions
-            const now = Date.now();
-            if (now - lastSubmitTime < MIN_SUBMIT_INTERVAL) {
-                formStatus.innerHTML = 'Please wait a few seconds before submitting again.';
-                formStatus.className = 'form-status error';
-                return;
-            }
-            lastSubmitTime = now;
-
-            const nameVal = document.getElementById('name').value.trim();
-            const messageVal = document.getElementById('message').value.trim();
-
-            if (nameVal.length < 3) {
-                formStatus.innerHTML = 'Name must be at least 3 characters.';
-                formStatus.className = 'form-status error';
-                return;
-            }
-            if (messageVal.length < 20) {
-                formStatus.innerHTML = 'Message must be at least 20 characters. (' + messageVal.length + '/20)';
-                formStatus.className = 'form-status error';
-                return;
-            }
-
-            const btnText = submitBtn.querySelector('.btn-text');
-            const originalText = btnText.textContent;
-
-            submitBtn.disabled = true;
-            submitBtn.classList.add('opacity-60', 'pointer-events-none');
-            btnText.textContent = 'Transmitting...';
-            formStatus.innerHTML = '';
-            formStatus.className = '';
-
-            let sent = false;
-            try {
-                const formData = new FormData();
-                formData.append('name', nameVal);
-                formData.append('email', document.getElementById('email').value.trim());
-                formData.append('message', messageVal);
-                formData.append('_subject', 'Portfolio Contact');
-                const response = await fetch('https://formspree.io/f/mqevrdnv', {
-                    method: 'POST',
-                    body: data,
-                    headers: { 'Accept': 'application/json' }
-                });
-                if (response.ok) {
-                    sent = true;
-                }
-            } catch (err) {}
-
-            if (sent) {
-                formStatus.innerHTML = '&#10003; Message transmitted successfully. I will respond shortly.';
-                formStatus.className = 'form-status success';
-                contactForm.reset();
-            } else {
-                formStatus.innerHTML = 'Transmission failed. Please try again or contact me directly via email.';
-                formStatus.className = 'form-status error';
-            }
-
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('opacity-60', 'pointer-events-none');
-            btnText.textContent = originalText;
-        });
-    }
-
-    const revealEls = document.querySelectorAll('[data-reveal]');
-    if ('IntersectionObserver' in window && revealEls.length) {
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                } else {
-                    entry.target.classList.remove('is-visible');
-                }
-            });
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-        revealEls.forEach((el) => io.observe(el));
-    } else if (revealEls.length) {
-        revealEls.forEach((el) => el.classList.add('is-visible'));
-    }
-
-    const scroller = document.getElementById('projects-scroller');
-    if (scroller) {
-        const step = () => {
-            const card = scroller.querySelector('.snap-start');
-            return card ? card.getBoundingClientRect().width : 300;
-        };
-        scroller.addEventListener('wheel', (e) => {
-            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-                e.preventDefault();
-                scroller.scrollLeft += e.deltaY;
-            }
-        }, { passive: false });
-        window.addEventListener('keydown', (e) => {
-            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-            if (e.key === 'ArrowRight' || e.key === 'l' || e.key === 'L') {
-                e.preventDefault();
-                scroller.scrollBy({ left: step(), behavior: 'smooth' });
-            } else if (e.key === 'ArrowLeft' || e.key === 'h' || e.key === 'H') {
-                e.preventDefault();
-                scroller.scrollBy({ left: -step(), behavior: 'smooth' });
-            }
-        });
-    }
-});
+document.addEventListener('DOMContentLoaded', init);

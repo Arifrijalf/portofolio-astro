@@ -1,13 +1,23 @@
-<section class="py-section-padding px-margin-page relative" id="certificates">
-<div class="mb-12" data-reveal>
-<h2 class="font-headline-md text-[21px] text-text-primary font-bold">
-  Certifications
-</h2>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-reveal data-reveal-delay="1">
-<div>
-  <h4 class="font-bold text-text-primary text-[15px]">AWS Certified IoT Specialty</h4>
-  <p class="text-[14px] text-text-secondary mt-1">Amazon Web Services</p>
-</div>
-</div>
+---
+const certificates = [
+  { name: 'AWS Certified IoT Specialty', issuer: 'Amazon Web Services' },
+];
+---
+
+<section id="certificates" class="relative py-24">
+  <div class="max-w-6xl mx-auto px-5">
+    <div data-reveal>
+      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Certifications</h2>
+    </div>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      {certificates.map((c) => (
+        <div class="chip-card p-6">
+          <i data-lucide="award" class="inline-block h-8 w-8 text-copper"></i>
+          <p class="mt-4 font-display font-semibold text-lg">{c.name}</p>
+          <p class="silkscreen text-text-secondary mt-1">{c.issuer}</p>
+          <p class="pin-label mt-4">VALID // VERIFIED</p>
+        </div>
+      ))}
+    </div>
+  </div>
 </section>

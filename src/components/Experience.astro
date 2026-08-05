@@ -1,42 +1,47 @@
-<section class="py-section-padding px-margin-page relative" id="experience">
-  <div class="mb-12" data-reveal>
-    <h2
-      class="font-headline-md text-[21px] text-text-primary font-bold"
-    >
-      Experience
-    </h2>
-  </div>
-  <div class="ml-4 md:ml-8 pl-8 border-l border-text-primary space-y-12" data-reveal data-reveal-delay="1">
-    <div class="timeline-node">
-      <h3 class="font-headline-md text-[20px] text-text-primary font-bold mb-1">Internship</h3>
-      <p class="text-text-secondary text-[15px] mb-4">
-        PT. Sat Nusapersada Tbk • Jan 2023 - Juny 2023
-      </p>
-      <ul
-        class="text-[15px] text-text-secondary space-y-2 list-disc list-inside"
-      >
-        <li>Assisted in the development and testing of IoT devices.</li>
-        <li>Collaborated with cross-functional teams to define product requirements.</li>
-        <li>Documented technical specifications and user guides.</li>
-      </ul>
+---
+const jobs = [
+  {
+    role: 'IoT Developer',
+    company: 'Freelancer • 2020 - present',
+    bullets: [
+      'Developed cloud-connected monitoring systems.',
+      'Integrated various sensors and communication protocols (I2C, SPI, UART).',
+      'Built internal dashboard tools using React.',
+    ],
+  },
+  {
+    role: 'Internship',
+    company: 'PT. Sat Nusapersada Tbk • Jan 2023 - Juny 2023',
+    bullets: [
+      'Assisted in the development and testing of IoT devices.',
+      'Collaborated with cross-functional teams to define product requirements.',
+      'Documented technical specifications and user guides.',
+    ],
+  },
+];
+---
+
+<section id="experience" class="relative py-24">
+  <div class="max-w-6xl mx-auto px-5">
+    <div data-reveal>
+      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Experience</h2>
     </div>
-    <div class="timeline-node">
-      <h3 class="font-headline-md text-[20px] text-text-primary font-bold mb-1">
-        IoT Developer
-      </h3>
-      <p class="text-text-secondary text-[15px] mb-4">
-        Freelancer • 2020 - present
-      </p>
-      <ul
-        class="text-[15px] text-text-secondary space-y-2 list-disc list-inside"
-      >
-        <li>Developed cloud-connected monitoring systems.</li>
-        <li>
-          Integrated various sensors and communication protocols (I2C, SPI,
-          UART).
-        </li>
-        <li>Built internal dashboard tools using React.</li>
-      </ul>
+    <div class="relative mt-12 border-l border-gridline pl-8 md:pl-12">
+      {jobs.map((j, i) => (
+        <div class="relative pb-14 last:pb-0" data-reveal data-reveal-delay={String(i)}>
+          <span class="absolute -left-[37px] md:-left-[49px] top-1.5 inline-block h-3 w-3 bg-trace shadow-[0_0_12px_rgba(0,229,255,0.8)] md:-left-[49px]"></span>
+          <h3 class="font-display text-xl font-semibold">{j.role}</h3>
+          <p class="silkscreen copper mt-1">{j.company}</p>
+          <ul class="mt-4 list-none m-0 p-0 space-y-2 text-text-secondary leading-relaxed">
+            {j.bullets.map((b) => (
+              <li class="flex gap-3">
+                <span class="inline-block h-1 w-1 mt-2 shrink-0 bg-copper"></span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   </div>
 </section>

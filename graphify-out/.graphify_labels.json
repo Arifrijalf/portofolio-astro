@@ -4,10 +4,10 @@
   "2": "dependencies",
   "3": "package.json",
   "4": "tsconfig.json",
-  "5": "allowScripts",
+  "5": "scripts",
+  "6": "ThreeScene.tsx",
   "7": "stars.js",
   "8": "Portofolio Astro",
-  "9": "BaseLayout.astro",
   "10": "CLAUDE.md",
   "11": "astro.config.mjs"
 }

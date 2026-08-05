@@ -28,3 +28,8 @@ pnpm-debug.log*
 .dev.vars*
 !.dev.vars.example
 !.env.example
+
+# graphify cache
+graphify-out/cache/
+graphify-out/2026-*/
+graphify-out/last_query_stamp

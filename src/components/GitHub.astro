@@ -1,23 +1,26 @@
-<section class="py-section-padding px-margin-page relative" id="github">
-  <div class="mb-12" data-reveal>
-    <h2 class="font-headline-md text-[21px] text-text-primary font-bold">
-      Open Source
-    </h2>
-  </div>
-  <div class="mb-6" data-reveal data-reveal-delay="1">
-    <span class="text-[15px] text-text-secondary">GitHub Contribution Activity</span>
-  </div>
-  <div class="w-full overflow-x-auto" data-reveal data-reveal-delay="2">
-    <img
-      src="https://github-readme-activity-graph.vercel.app/graph?username=Arifrijalf&bg_color=000000&color=ffffff&line=888888&point=ffffff&area=true&area_color=1c1c1c&hide_border=false&custom_title=Contribution%20Graph"
-      alt="Arif Rijal Fadhilah GitHub Activity Graph"
-      class="w-full min-w-[700px]"
-      loading="lazy"
-      decoding="async"
-    />
-  </div>
-  <div class="mt-6" data-reveal data-reveal-delay="3">
-    <p class="text-[15px] text-text-secondary mb-4">Explore my recent commits and open-source projects on GitHub.</p>
-    <a class="link-underline font-body-md text-[15px] text-text-primary hover:opacity-60 transition-opacity" href="https://github.com/Arifrijalf" target="_blank">View GitHub Profile</a>
+---
+const graphUrl =
+  'https://github-readme-activity-graph.vercel.app/graph?username=Arifrijalf&bg_color=000000&color=ffffff&line=888888&point=ffffff&area=true&area_color=1c1c1c&hide_border=false&custom_title=Contribution%20Graph';
+---
+
+<section id="github" class="relative py-24">
+  <div class="max-w-6xl mx-auto px-5">
+    <div data-reveal>
+      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Open Source</h2>
+      <p class="mt-4 text-text-secondary">GitHub Contribution Activity</p>
+    </div>
+    <div class="mt-10 overflow-x-auto no-scrollbar" data-reveal data-reveal-delay="1">
+      <img
+        src={graphUrl}
+        alt="Arif Rijal Fadhilah GitHub Activity Graph"
+        loading="lazy"
+        class="min-w-[700px]"
+      />
+    </div>
+    <div class="mt-6" data-reveal>
+      <a href="https://github.com/Arifrijalf" target="_blank" rel="noopener" class="chip-card inline-block px-5 py-3 text-trace no-underline">
+        View GitHub Profile <i data-lucide="external-link" class="inline-block h-4 w-4"></i>
+      </a>
+    </div>
   </div>
 </section>

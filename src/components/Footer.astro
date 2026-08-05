@@ -1,50 +1,23 @@
 ---
-import Icon from "./Icon.astro";
+const socials = [
+  { href: 'https://github.com/Arifrijalf', icon: 'github', label: 'GitHub' },
+  { href: 'https://www.linkedin.com/in/arif-rijal-fadhilah', icon: 'linkedin', label: 'LinkedIn' },
+  { href: 'https://wa.me/6289519777498', icon: 'message-circle', label: 'WhatsApp' },
+  { href: 'https://www.instagram.com/aarifrijal_/', icon: 'instagram', label: 'Instagram' },
+];
 ---
 
-<footer class="bg-void w-full py-12 border-t border-border-muted relative z-10 mt-20">
-  <div
-    class="flex flex-col md:flex-row justify-between items-center px-margin-page"
-  >
-    <div class="text-[15px] text-text-primary mb-6 md:mb-0">
-      Arif Rijal Fadhilah
-    </div>
-    <div class="text-[14px] text-text-secondary text-center md:text-left mb-6 md:mb-0">
-      © 2026 Arif Rijal Fadhilah. Engineered for Precision.
-    </div>
-    <div class="flex flex-wrap items-center gap-5">
-      <a
-        class="link-underline text-[15px] text-text-primary hover:opacity-60 transition-opacity flex items-center gap-1.5"
-        href="https://github.com/Arifrijalf"
-        target="_blank"
-      >
-        <Icon name="github" class="w-4 h-4" />
-        GitHub
-      </a>
-      <a
-        class="link-underline text-[15px] text-text-primary hover:opacity-60 transition-opacity flex items-center gap-1.5"
-        href="https://www.linkedin.com/in/arif-rijal-fadhilah"
-        target="_blank"
-      >
-        <Icon name="linkedin" class="w-4 h-4" />
-        LinkedIn
-      </a>
-      <a
-        class="link-underline text-[15px] text-text-primary hover:opacity-60 transition-opacity flex items-center gap-1.5"
-        href="https://wa.me/6289519777498"
-        target="_blank"
-      >
-        <Icon name="whatsapp" class="w-4 h-4" />
-        WhatsApp
-      </a>
-      <a
-        class="link-underline text-[15px] text-text-primary hover:opacity-60 transition-opacity flex items-center gap-1.5"
-        href="https://www.instagram.com/aarifrijal_/"
-        target="_blank"
-      >
-        <Icon name="instagram" class="w-4 h-4" />
-        Instagram
-      </a>
-    </div>
+<footer class="relative border-t border-gridline py-10">
+  <div class="max-w-6xl mx-auto px-5 flex flex-col md:flex-row items-center justify-between gap-6">
+    <p class="silkscreen text-text-secondary m-0">© 2026 Arif Rijal Fadhilah. Engineered for Precision.</p>
+    <ul class="flex gap-6 list-none m-0 p-0">
+      {socials.map((s) => (
+        <li>
+          <a href={s.href} target="_blank" rel="noopener" class="silkscreen text-text-secondary hover:text-trace transition-colors no-underline" aria-label={s.label}>
+            <i data-lucide={s.icon} class="inline-block h-5 w-5"></i>
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </footer>

@@ -1,103 +1,95 @@
 ---
-import Icon from "./Icon.astro";
+const links = [
+  { label: 'Email', value: 'arifrijalfadhilah@gmail.com', href: 'mailto:arifrijalfadhilah@gmail.com', icon: 'mail' },
+  { label: 'GitHub', value: 'github.com/Arifrijalf', href: 'https://github.com/Arifrijalf', icon: 'github' },
+  { label: 'LinkedIn', value: 'linkedin.com/in/arif-rijal-fadhilah', href: 'https://www.linkedin.com/in/arif-rijal-fadhilah', icon: 'linkedin' },
+  { label: 'Instagram', value: '@aarifrijal_', href: 'https://www.instagram.com/aarifrijal_/', icon: 'instagram' },
+  { label: 'WhatsApp', value: '+62 895-1977-7498', href: 'https://wa.me/6289519777498', icon: 'message-circle' },
+];
 ---
 
-<section class="py-section-padding px-margin-page relative" id="contact">
-  <div class="mb-12" data-reveal>
-    <h2 class="font-headline-md text-[21px] text-text-primary font-bold">
-      Contact Protocol
-    </h2>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-12" data-reveal data-reveal-delay="1">
-    <div>
-      <p class="text-[15px] text-text-secondary mb-6">
-        Direct channels for collaboration and inquiries.
-      </p>
-      <ul class="text-[15px] text-text-primary space-y-3">
-        <li>
-          <a
-            class="link-underline hover:opacity-60 transition-opacity flex items-center gap-2"
-            href="mailto:arifrijalfadhilah@gmail.com"
-            ><Icon name="mail" class="w-4 h-4" />arifrijalfadhilah@gmail.com</a
-          >
-        </li>
-        <li>
-          <a
-            class="link-underline hover:opacity-60 transition-opacity flex items-center gap-2"
-            href="https://www.linkedin.com/in/arif-rijal-fadhilah"
-            target="_blank"
-            ><Icon name="linkedin" class="w-4 h-4" />LinkedIn</a
-          >
-        </li>
-        <li>
-          <a
-            class="link-underline hover:opacity-60 transition-opacity flex items-center gap-2"
-            href="https://www.instagram.com/aarifrijal_/"
-            target="_blank"
-            ><Icon name="instagram" class="w-4 h-4" />@aarifrijal_</a
-          >
-        </li>
-      </ul>
+<section id="contact" class="relative py-24">
+  <div class="max-w-6xl mx-auto px-5">
+    <div data-reveal>
+      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Contact Protocol</h2>
+      <p class="mt-4 text-text-secondary">Direct channels for collaboration and inquiries.</p>
     </div>
-    <div>
-      <form id="contact-form" action="https://formspree.io/f/mqevrdnv" method="POST" class="space-y-6">
+
+    <div class="mt-12 grid gap-8 lg:grid-cols-2">
+      <div class="space-y-3" data-reveal>
+        {links.map((l) => (
+          <a
+            href={l.href}
+            target={l.href.startsWith('http') ? '_blank' : undefined}
+            rel="noopener"
+            class="chip-card flex items-center gap-4 px-5 py-4 no-underline"
+          >
+            <i data-lucide={l.icon} class="inline-block h-5 w-5 text-trace shrink-0"></i>
+            <span class="flex-1">
+              <span class="silkscreen block text-text-secondary">{l.label}</span>
+              <span class="silkscreen text-text-primary">{l.value}</span>
+            </span>
+            <i data-lucide="arrow-up-right" class="inline-block h-4 w-4 text-text-secondary"></i>
+          </a>
+        ))}
+      </div>
+
+      <form
+        id="contact-form"
+        action="https://formspree.io/f/mqevrdnv"
+        method="POST"
+        class="chip-card p-6 flex flex-col gap-4"
+        data-reveal
+        data-reveal-delay="1"
+      >
         <input type="text" name="_gotcha" class="_gotcha" tabindex="-1" autocomplete="off" />
         <input type="hidden" name="_subject" value="Portfolio Contact" />
-        <div>
-          <label
-            class="block text-[15px] text-text-secondary mb-2"
-            for="name"
-            >Name</label
-          >
+
+        <label class="flex flex-col gap-2">
+          <span class="silkscreen text-text-secondary">// NAME</span>
           <input
-            class="w-full bg-transparent border border-border-muted px-4 py-3 text-text-primary focus:outline-none focus:border-text-primary transition-colors"
-            id="name"
-            name="name"
-            placeholder="Alex"
             type="text"
+            name="name"
             required
             minlength="3"
+            placeholder="Alex"
+            class="bg-background border border-gridline px-4 py-3 text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-trace transition-colors"
           />
-        </div>
-        <div>
-          <label
-            class="block text-[15px] text-text-secondary mb-2"
-            for="email"
-            >Email</label
-          >
+        </label>
+
+        <label class="flex flex-col gap-2">
+          <span class="silkscreen text-text-secondary">// EMAIL</span>
           <input
-            class="w-full bg-transparent border border-border-muted px-4 py-3 text-text-primary focus:outline-none focus:border-text-primary transition-colors"
-            id="email"
-            name="email"
-            placeholder="arif@example.com"
             type="email"
+            name="email"
             required
+            placeholder="arif@example.com"
+            class="bg-background border border-gridline px-4 py-3 text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-trace transition-colors"
           />
-        </div>
-        <div>
-          <label
-            class="block text-[15px] text-text-secondary mb-2"
-            for="message"
-            >Message</label
-          >
+        </label>
+
+        <label class="flex flex-col gap-2">
+          <span class="silkscreen text-text-secondary">// MESSAGE</span>
           <textarea
-            class="w-full bg-transparent border border-border-muted px-4 py-3 text-text-primary focus:outline-none focus:border-text-primary transition-colors h-32 resize-none"
-            id="message"
             name="message"
-            placeholder="Your message..."
             required
             minlength="20"
+            placeholder="Your message..."
+            rows="4"
+            class="bg-background border border-gridline px-4 py-3 text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-trace transition-colors resize-none"
           ></textarea>
-          <p class="text-[14px] text-text-secondary mt-1">Minimum 20 characters</p>
-        </div>
-        <div id="form-status"></div>
+          <span class="silkscreen text-text-secondary/60">Minimum 20 characters</span>
+        </label>
+
         <button
-          id="submit-btn"
           type="submit"
-          class="link-underline font-body-md text-[15px] text-text-primary hover:opacity-60 transition-opacity"
+          id="submit-btn"
+          class="chip-card self-start px-6 py-3 text-trace no-underline"
         >
-          <span class="btn-text">Send Message</span>
+          <span class="btn-text">Send Message <i data-lucide="send" class="inline-block h-4 w-4"></i></span>
         </button>
+
+        <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
       </form>
     </div>
   </div>

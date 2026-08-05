@@ -1,101 +1,47 @@
-<nav
-  id="main-nav"
-  class="fixed top-0 w-full z-50 border-b border-transparent transition-all duration-300"
-  data-reveal
->
-  <div class="flex justify-between items-center px-margin-page py-4">
-    <div class="font-body-md text-[15px] text-text-primary">Arif Rijal Fadhilah</div>
-    <div class="hidden md:flex items-center gap-5">
-      <a
-        class="nav-link text-primary font-bold font-body-md text-[15px]"
-        href="#home"
-        >Home</a
-      >
-      <a
-        class="nav-link text-on-surface-variant hover:text-primary font-body-md text-[15px]"
-        href="#about"
-        >About</a
-      >
-      <a
-        class="nav-link text-on-surface-variant hover:text-primary font-body-md text-[15px]"
-        href="#skills"
-        >Skills</a
-      >
-      <a
-        class="nav-link text-on-surface-variant hover:text-primary font-body-md text-[15px]"
-        href="#projects"
-        >Projects</a
-      >
-      <a
-        class="nav-link text-on-surface-variant hover:text-primary font-body-md text-[15px]"
-        href="#experience"
-        >Experience</a
-      >
-      <a
-        class="nav-link text-on-surface-variant hover:text-primary font-body-md text-[15px]"
-        href="#certificates"
-        >Certifications</a
-      >
-      <a
-        class="nav-link text-on-surface-variant hover:text-primary font-body-md text-[15px]"
-        href="#contact"
-        >Contact</a
-      >
-    </div>
-    <button class="hidden md:block hire-btn text-[15px] text-text-primary hover:opacity-60 transition-opacity">
-      Hire Me
+---
+const links = [
+  { href: '#about', label: 'About' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header id="main-nav" class="fixed top-0 left-0 right-0 z-40 transition-colors duration-300">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4" aria-label="Main">
+    <a href="#top" class="silkscreen copper tracking-widest no-underline">ARIF RIJAL FADHILAH</a>
+
+    <ul class="hidden md:flex items-center gap-8 list-none m-0 p-0">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} class="silkscreen nav-link relative pb-1 no-underline" data-nav>
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden silkscreen trace no-underline p-2"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <i data-lucide="menu" id="menu-open" class="inline-block h-5 w-5"></i>
+      <i data-lucide="x" id="menu-close" class="inline-block h-5 w-5 hidden"></i>
     </button>
-    <button id="mobile-menu-btn" class="md:hidden text-text-primary p-2 text-[15px]">
-      <span id="mobile-menu-icon">+</span>
-    </button>
+  </nav>
+
+  <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 transition-all duration-300 bg-panel/95 border-y border-gridline">
+    <ul class="flex flex-col gap-1 list-none m-0 p-4">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} class="silkscreen nav-link relative block py-2 px-1 pb-1 no-underline" data-nav>
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
-  <div
-    id="mobile-menu"
-    class="md:hidden border-t border-border-muted/50"
-  >
-    <div class="flex flex-col px-margin-page py-4 space-y-1">
-      <a
-        class="mobile-nav-link text-primary font-bold py-3 px-4 font-body-md text-[15px]"
-        href="#home"
-        >Home</a
-      >
-      <a
-        class="mobile-nav-link text-on-surface-variant py-3 px-4 font-body-md text-[15px]"
-        href="#about"
-        >About</a
-      >
-      <a
-        class="mobile-nav-link text-on-surface-variant py-3 px-4 font-body-md text-[15px]"
-        href="#skills"
-        >Skills</a
-      >
-      <a
-        class="mobile-nav-link text-on-surface-variant py-3 px-4 font-body-md text-[15px]"
-        href="#projects"
-        >Projects</a
-      >
-      <a
-        class="mobile-nav-link text-on-surface-variant py-3 px-4 font-body-md text-[15px]"
-        href="#experience"
-        >Experience</a
-      >
-      <a
-        class="mobile-nav-link text-on-surface-variant py-3 px-4 font-body-md text-[15px]"
-        href="#certificates"
-        >Certifications</a
-      >
-      <a
-        class="mobile-nav-link text-on-surface-variant py-3 px-4 font-body-md text-[15px]"
-        href="#contact"
-        >Contact</a
-      >
-      <div class="pt-2">
-        <button
-          class="mobile-hire-btn w-full py-3 text-[15px] text-text-primary text-left"
-        >
-          Hire Me
-        </button>
-      </div>
-    </div>
-  </div>
-</nav>
+</header>
