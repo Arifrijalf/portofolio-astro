@@ -13,7 +13,6 @@ function init() {
   initBoot();
   initContactForm();
   initDownloadCv();
-  initGitHubGraph();
   initTypewriter();
 }
 
@@ -260,105 +259,6 @@ function initDownloadCv() {
       alert('CV NOT FOUND // CHECK: /ArifRijalFadhilah_CV.pdf');
     }
   });
-}
-
-const GH_API_URL = 'https://github-contributions-api.jogruber.de/v4/Arifrijalf';
-const GH_LEVELS = ['#1a2433', '#0e4b54', '#0091a0', '#00c4d6', '#00e5ff'];
-
-function initGitHubGraph() {
-  const target = document.getElementById('gh-graph');
-  if (!target) return;
-  const pad = (n: number) => String(n).padStart(2, '0');
-  const iso = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-  fetch(GH_API_URL)
-    .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
-    .then((data: { total?: Record<string, number>; contributions?: { date: string; count: number; level: number }[] }) => {
-      const contributions = Array.isArray(data.contributions) ? data.contributions : [];
-      const byDate = new Map(contributions.map((d) => [d.date, d]));
-      const total = Object.values(data.total ?? {}).reduce((a, b) => a + (b ?? 0), 0);
-
-      const end = new Date();
-      const start = new Date(end);
-      start.setDate(start.getDate() - 363);
-      start.setHours(0, 0, 0, 0);
-      const firstDay = new Date(start);
-      firstDay.setDate(firstDay.getDate() - start.getDay());
-
-      const days: { date: string; level: number; today: boolean }[] = [];
-      for (let d = new Date(firstDay); d <= end; d.setDate(d.getDate() + 1)) {
-        const key = iso(d);
-        const rec = byDate.get(key);
-        days.push({ date: key, level: rec ? Math.min(4, rec.level) : 0, today: key === iso(end) });
-      }
-      const weeks = Math.ceil(days.length / 7);
-
-      const cell = 11;
-      const gap = 3;
-      const W = 700;
-      const H = 22 + 7 * (cell + gap);
-      const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      const DOW = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', String(W));
-      svg.setAttribute('height', String(H + 24));
-      svg.setAttribute('viewBox', `0 0 ${W} ${H + 24}`);
-      svg.setAttribute('role', 'img');
-      svg.setAttribute('aria-label', `GitHub contribution graph, ${total} total contributions`);
-
-      const text = (x: number, y: number, content: string, size: number, fill: string) => {
-        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        t.setAttribute('x', String(x));
-        t.setAttribute('y', String(y));
-        t.setAttribute('font-size', String(size));
-        t.setAttribute('font-family', "'Space Mono', monospace");
-        t.setAttribute('fill', fill);
-        t.textContent = content;
-        svg.appendChild(t);
-      };
-
-      let lastMonth = -1;
-      for (let w = 0; w < weeks; w++) {
-        const di = w * 7;
-        if (di < days.length) {
-          const m = Number(days[di].date.slice(5, 7));
-          if (m !== lastMonth) {
-            lastMonth = m;
-            text(22 + w * (cell + gap), 12, MONTHS[m - 1], 9, '#7d8ca3');
-          }
-        }
-      }
-      for (let r = 0; r < 7; r++) {
-        if (r % 2 === 1) continue;
-        text(4, 31 + r * (cell + gap), DOW[r], 8, '#7d8ca3');
-      }
-      for (let w = 0; w < weeks; w++) {
-        for (let r = 0; r < 7; r++) {
-          const di = w * 7 + r;
-          if (di >= days.length) continue;
-          const d = days[di];
-          const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-          rect.setAttribute('x', String(22 + w * (cell + gap)));
-          rect.setAttribute('y', String(22 + r * (cell + gap)));
-          rect.setAttribute('width', String(cell));
-          rect.setAttribute('height', String(cell));
-          rect.setAttribute('rx', '1.5');
-          rect.setAttribute('fill', GH_LEVELS[d.level]);
-          if (d.today) rect.setAttribute('stroke', '#ffb000');
-          if (d.level > 0) {
-            const tip = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-            tip.textContent = `${d.date}: ${byDate.get(d.date)?.count ?? 0} contributions`;
-            rect.appendChild(tip);
-          }
-          svg.appendChild(rect);
-        }
-      }
-      text(22, H + 16, `Total: ${total} contributions`, 11, '#e6edf3');
-      target.appendChild(svg);
-    })
-    .catch(() => {
-      target.innerHTML = '<span class="silkscreen text-text-secondary">GRAPH UNAVAILABLE</span>';
-    });
 }
 
 function initTypewriter() {

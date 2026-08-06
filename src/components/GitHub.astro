@@ -1,13 +1,19 @@
 ---
+import { fetchRepos } from '../data/repos';
+import RepoUniverse from './islands/repo-universe/RepoUniverse';
+
+const repos = await fetchRepos();
+const repoLinks = repos.map((r) => ({ name: r.name, htmlUrl: r.htmlUrl }));
+---
 
 <section id="github" class="relative py-24">
   <div class="max-w-6xl mx-auto px-5">
     <div data-reveal>
-      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Open Source</h2>
-      <p class="mt-4 text-text-secondary">GitHub Contribution Activity</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold tracking-tight">Open Source Ecosystem</h2>
+      <p class="mt-4 text-text-secondary">Drag, flick, and explore my active repositories. Tap a module for details.</p>
     </div>
-    <div class="mt-10 overflow-x-auto">
-      <div id="gh-graph" class="min-w-[700px]"></div>
+    <div class="mt-10" data-reveal>
+      <RepoUniverse client:only="react" repos={repos} />
     </div>
     <div class="mt-6" data-reveal>
       <a href="https://github.com/Arifrijalf" target="_blank" rel="noopener" class="chip-card inline-block px-5 py-3 text-trace no-underline">
@@ -16,3 +22,11 @@
     </div>
   </div>
 </section>
+
+<ul class="sr-only">
+  {
+    repoLinks.map((l) => (
+      <li><a href={l.htmlUrl} target="_blank" rel="noopener noreferrer">{l.name}</a></li>
+    ))
+  }
+</ul>
