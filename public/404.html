@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Arif Rijal Fadhilah</title>
+  <meta name="robots" content="noindex" />
+  <style>
+    :root { color-scheme: dark; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0f16;
+      color: #e6edf3;
+      font-family: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .box { max-width: 640px; padding: 2rem; border: 1px solid #1a2433; position: relative; }
+    .box::before, .box::after {
+      content: "";
+      position: absolute;
+      width: 14px; height: 14px;
+      border: 2px solid #00e5ff;
+    }
+    .box::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+    .box::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+    .code { color: #7d8ca3; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .code b { color: #00e5ff; font-weight: 400; }
+    h1 { margin: 0.8rem 0; font-size: 3rem; letter-spacing: 0.05em; }
+    p { color: #7d8ca3; line-height: 1.7; }
+    a {
+      display: inline-block; margin-top: 1.6rem;
+      color: #00e5ff; text-decoration: none;
+      border: 1px solid rgba(0,229,255,0.4); padding: 0.6rem 1.4rem;
+      font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+      transition: background 0.25s ease;
+    }
+    a:hover { background: rgba(0,229,255,0.1); }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="code">ERR_<b>NOT_FOUND</b> // 0x194</div>
+    <h1>404</h1>
+    <p>Requested component could not be located on this board. Check the pinout and try again.</p>
+    <a href="/">// Return to Base</a>
+  </div>
+</body>
+</html>
