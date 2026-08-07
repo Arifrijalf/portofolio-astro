@@ -7,12 +7,12 @@
   "5": "CONTENT.md — Site Content (single source of truth)",
   "6": "ThreeScene.tsx",
   "7": "stars.js",
-  "8": "ARCHITECTURE.md",
+  "8": "README.md",
   "9": "DEPLOYMENT.md",
   "10": "CLAUDE.md",
   "11": "astro.config.mjs",
   "12": "DESIGN.md — PCB / Blueprint Aesthetic",
   "13": "Impeccable Critique — PCB/Blueprint Portfolio (src/pages/index.astro)",
   "14": "RepoUniverse.tsx",
-  "15": "STYLE.md — Design Tokens & CSS Classes"
+  "15": "ARCHITECTURE.md"
 }

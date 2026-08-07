@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
-import { CapsuleCollider, RigidBody, type RapierRigidBody } from "@react-three/rapier";
+import { BallCollider, RigidBody, type RapierRigidBody } from "@react-three/rapier";
 import type { Repo } from "../../data/repos";
 
 export const LANG_COLORS: Record<string, string> = {
@@ -15,6 +15,83 @@ export const LANG_COLORS: Record<string, string> = {
   Rust: "#dea584",
   Unknown: "#7d8ca3",
 };
+
+function makeSoccerTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1024;
+  canvas.height = 512;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("no 2d context");
+
+  ctx.fillStyle = "#131c2b";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const phi = (1 + Math.sqrt(5)) / 2;
+  const raw: Array<[number, number, number]> = [
+    [-1, 0, phi], [1, 0, phi], [-1, 0, -phi], [1, 0, -phi],
+    [0, phi, 1], [0, phi, -1], [0, -phi, 1], [0, -phi, -1],
+    [phi, 1, 0], [phi, -1, 0], [-phi, 1, 0], [-phi, -1, 0],
+  ];
+  type V3 = { x: number; y: number; z: number };
+  const verts: V3[] = raw.map(([x, y, z]) => {
+    const len = Math.hypot(x, y, z);
+    return { x: x / len, y: y / len, z: z / len };
+  });
+  const proj = (p: V3) => ({
+    u: Math.atan2(p.z, p.x) / (2 * Math.PI) + 0.5,
+    v: Math.asin(Math.max(-1, Math.min(1, p.y))) / Math.PI + 0.5,
+  });
+  const pts = verts.map((v) => {
+    const p = proj(v);
+    return { x: p.u * canvas.width, y: p.v * canvas.height, u: p.u, v: p.v };
+  });
+  const dist3 = (a: V3, b: V3) => Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
+  const neighbors: number[][] = verts.map(() => []);
+  for (let i = 0; i < verts.length; i++) {
+    for (let j = i + 1; j < verts.length; j++) {
+      if (dist3(verts[i], verts[j]) < 1.05) {
+        neighbors[i].push(j);
+        neighbors[j].push(i);
+      }
+    }
+  }
+
+  ctx.strokeStyle = "#0a0f16";
+  ctx.lineWidth = 10;
+  ctx.lineCap = "round";
+  for (let i = 0; i < verts.length; i++) {
+    for (const j of neighbors[i]) {
+      if (i >= j) continue;
+      let u = pts[j].u;
+      if (u - pts[i].u > 0.5) u -= 1;
+      else if (u - pts[i].u < -0.5) u += 1;
+      ctx.beginPath();
+      ctx.moveTo(pts[i].x, pts[i].y);
+      ctx.lineTo(u * canvas.width, pts[j].y);
+      ctx.stroke();
+    }
+  }
+
+  for (let i = 0; i < verts.length; i++) {
+    const c = pts[i];
+    ctx.beginPath();
+    ctx.moveTo(c.x, c.y);
+    for (const j of neighbors[i]) {
+      let u = pts[j].u;
+      if (u - c.u > 0.5) u -= 1;
+      else if (u - c.u < -0.5) u += 1;
+      ctx.lineTo(u * canvas.width, pts[j].y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = "#00e5ff";
+    ctx.fill();
+  }
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  return tex;
+}
 
 interface RepoObjectProps {
   repo: Repo;
@@ -32,6 +109,8 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
   const camera = useThree((s) => s.camera);
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
   const plane = useMemo(() => new THREE.Plane(), []);
+  const home = useMemo(() => new THREE.Vector3(...position), [position]);
+  const soccerTex = useMemo(() => makeSoccerTexture(), []);
 
   const drag = useRef({
     active: false,
@@ -99,6 +178,10 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
       labelTex?.dispose();
     };
   }, [labelTex]);
+
+  useEffect(() => {
+    return () => soccerTex.dispose();
+  }, [soccerTex]);
 
   const spriteScale = useMemo(() => {
     const h = 0.55;
@@ -186,17 +269,16 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
     }
 
     if (!reduced) {
-      const lv = b.linvel();
-      if (Math.sqrt(lv.x * lv.x + lv.y * lv.y + lv.z * lv.z) < 0.05 && Math.random() < delta * 0.5) {
-        b.applyImpulse(
-          {
-            x: (Math.random() - 0.5) * 0.4,
-            y: Math.random() * 0.25 + 0.05,
-            z: (Math.random() - 0.5) * 0.4,
-          },
-          true
-        );
-      }
+      const p = b.translation();
+      b.setLinvel(
+        {
+          x: (home.x - p.x) * 2.5,
+          y: (home.y - p.y) * 2.5,
+          z: (home.z - p.z) * 2.5,
+        },
+        true
+      );
+      b.setAngvel({ x: 0.3, y: 0.4, z: 0.2 }, true);
     }
 
     if (group.current) {
@@ -216,17 +298,11 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
       linearDamping={0.9}
       angularDamping={0.45}
     >
-      <CapsuleCollider args={[0.45, 0.55]} />
+      <BallCollider args={[0.55]} />
       <group ref={group} onPointerDown={onPointerDown} onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)}>
         <mesh>
-          <capsuleGeometry args={[0.55, 0.9, 12, 24]} />
-          <meshStandardMaterial
-            color="#0e1520"
-            emissive="#0a1218"
-            emissiveIntensity={0.4}
-            metalness={0.45}
-            roughness={0.5}
-          />
+          <sphereGeometry args={[0.55, 32, 32]} />
+          <meshStandardMaterial map={soccerTex} color="#ffffff" metalness={0.2} roughness={0.5} />
         </mesh>
         <mesh>
           <torusGeometry args={[0.62, 0.012, 8, 40]} />
@@ -238,7 +314,7 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
             roughness={0.4}
           />
         </mesh>
-        <mesh position={[0, 1.05, 0]}>
+        <mesh position={[0, 0.85, 0]}>
           <sphereGeometry args={[0.07, 12, 12]} />
           <meshBasicMaterial color={hovered ? "#00e5ff" : "#ffb000"} />
         </mesh>

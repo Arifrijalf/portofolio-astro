@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier";
+import { Physics } from "@react-three/rapier";
 import { Sparkles } from "@react-three/drei";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
@@ -91,10 +91,7 @@ export default function RepoUniverse({ repos }: RepoUniverseProps) {
             color="#00e5ff"
           />
         )}
-        <Physics gravity={[0, reduced ? 0 : -0.5, 0]}>
-          <RigidBody type="fixed" position={[0, -2.4, 0]}>
-            <CuboidCollider args={[8, 0.25, 7]} />
-          </RigidBody>
+        <Physics gravity={[0, 0, 0]}>
           {repos.slice(0, 7).map((repo, i) => (
             <RepoObject
               key={repo.slug}

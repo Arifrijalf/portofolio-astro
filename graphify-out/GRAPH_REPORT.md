@@ -1,16 +1,16 @@
-# Graph Report - portofolio-astro  (2026-08-06)
+# Graph Report - portofolio-astro  (2026-08-07)
 
 ## Corpus Check
-- 34 files · ~106,244 words
+- 34 files · ~106,717 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 204 nodes · 231 edges · 16 communities (14 shown, 2 thin omitted)
+- 205 nodes · 233 edges · 16 communities (14 shown, 2 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7311a984`
+- Built from commit: `93a6b820`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -23,13 +23,13 @@
 - CONTENT.md — Site Content (single source of truth)
 - ThreeScene.tsx
 - stars.js
-- ARCHITECTURE.md
+- README.md
 - DEPLOYMENT.md
 - CLAUDE.md
 - DESIGN.md — PCB / Blueprint Aesthetic
 - Impeccable Critique — PCB/Blueprint Portfolio (src/pages/index.astro)
 - RepoUniverse.tsx
-- STYLE.md — Design Tokens & CSS Classes
+- ARCHITECTURE.md
 
 ## God Nodes (most connected - your core abstractions)
 1. `ThreeScene()` - 10 edges
@@ -82,9 +82,9 @@ Nodes (10): buildBoard(), buildChip(), buildLed(), buildOrbit(), buildSignalDot(
 Cohesion: 0.60
 Nodes (4): addShootingStar(), draw(), drawStaticStars(), resize()
 
-### Community 8 - "ARCHITECTURE.md"
+### Community 8 - "README.md"
 Cohesion: 0.12
-Nodes (12): Component responsibilities, Data flow, Deploy pipeline, Directory tree, Scripts (`src/scripts/main.ts`), Stack, Documentation, Features (+4 more)
+Nodes (12): Documentation, Features, License, Portofolio Astro, Quick start, Stack, Custom classes, Fonts (loaded via Google Fonts) (+4 more)
 
 ### Community 9 - "DEPLOYMENT.md"
 Cohesion: 0.18
@@ -100,11 +100,11 @@ Nodes (9): Design Health Score (Nielsen heuristics, out of 32, 2 n/a), Design Sp
 
 ### Community 14 - "RepoUniverse.tsx"
 Cohesion: 0.13
-Nodes (16): repoLinks, LANG_COLORS, RepoObject(), RepoObjectProps, RepoPanel(), RepoPanelProps, RepoUniverseProps, SPAWN (+8 more)
+Nodes (17): repoLinks, LANG_COLORS, makeSoccerTexture(), RepoObject(), RepoObjectProps, RepoPanel(), RepoPanelProps, RepoUniverseProps (+9 more)
 
-### Community 15 - "STYLE.md — Design Tokens & CSS Classes"
+### Community 15 - "ARCHITECTURE.md"
 Cohesion: 0.29
-Nodes (6): Custom classes, Fonts (loaded via Google Fonts), Keyframes, Responsive, STYLE.md — Design Tokens & CSS Classes, @theme tokens (Tailwind v4)
+Nodes (6): Component responsibilities, Data flow, Deploy pipeline, Directory tree, Scripts (`src/scripts/main.ts`), Stack
 
 ## Knowledge Gaps
 - **97 isolated node(s):** `name`, `type`, `version`, `node`, `dev` (+92 more)
@@ -116,8 +116,8 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
   _High betweenness centrality (0.051) - this node is a cross-community bridge._
-- **Why does `CONTENT.md — Site Content (single source of truth)` connect `CONTENT.md — Site Content (single source of truth)` to `ARCHITECTURE.md`?**
-  _High betweenness centrality (0.031) - this node is a cross-community bridge._
+- **Why does `CONTENT.md — Site Content (single source of truth)` connect `CONTENT.md — Site Content (single source of truth)` to `README.md`?**
+  _High betweenness centrality (0.030) - this node is a cross-community bridge._
 - **What connects `name`, `type`, `version` to the rest of the system?**
   _97 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `index.astro` be split into smaller, more focused modules?**
@@ -126,5 +126,5 @@ _Questions this graph is uniquely positioned to answer:_
   _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._
-- **Should `ARCHITECTURE.md` be split into smaller, more focused modules?**
+- **Should `README.md` be split into smaller, more focused modules?**
   _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._
