@@ -16,6 +16,12 @@ export const LANG_COLORS: Record<string, string> = {
   Unknown: "#7d8ca3",
 };
 
+const SPRING_GAIN = 4;
+const SPRING_DAMPING = 0.4;
+const FREE_DAMPING = 0.25;
+const IMPACT_SPEED = 0.8;
+const IMPACT_WINDOW = 0.3;
+
 function makeSoccerTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
   canvas.width = 1024;
@@ -124,6 +130,8 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
     prevY: 0,
     prevZ: 0,
   });
+
+  const impact = useRef(0);
 
   const lang = repo.language || "Unknown";
   const langColor = LANG_COLORS[lang] || "#7d8ca3";
@@ -255,13 +263,13 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
       const step = drag.current.target.clone().sub(new THREE.Vector3(cur.x, cur.y, cur.z)).multiplyScalar(Math.min(delta * 10, 1));
       const next = { x: cur.x + step.x, y: cur.y + step.y, z: cur.z + step.z };
       b.setTranslation(next, true);
-      b.setLinvel({ x: 0, y: 0, z: 0 }, true);
-      b.setAngvel({ x: 0, y: 0, z: 0 }, true);
       drag.current.vel.set(
         (next.x - drag.current.prevX) / Math.max(delta, 1e-4),
         (next.y - drag.current.prevY) / Math.max(delta, 1e-4),
         (next.z - drag.current.prevZ) / Math.max(delta, 1e-4)
       );
+      b.setLinvel({ x: drag.current.vel.x, y: drag.current.vel.y, z: drag.current.vel.z }, true);
+      b.setAngvel({ x: 0, y: 0, z: 0 }, true);
       drag.current.prevX = next.x;
       drag.current.prevY = next.y;
       drag.current.prevZ = next.z;
@@ -270,15 +278,26 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
 
     if (!reduced) {
       const p = b.translation();
-      b.setLinvel(
-        {
-          x: (home.x - p.x) * 2.5,
-          y: (home.y - p.y) * 2.5,
-          z: (home.z - p.z) * 2.5,
-        },
-        true
-      );
-      b.setAngvel({ x: 0.3, y: 0.4, z: 0.2 }, true);
+      const lv = b.linvel();
+      const speed = Math.hypot(lv.x, lv.y, lv.z);
+      const outward = lv.x * (p.x - home.x) + lv.y * (p.y - home.y) + lv.z * (p.z - home.z) > 0;
+      if (speed > IMPACT_SPEED && outward) impact.current = IMPACT_WINDOW;
+
+      if (impact.current > 0) {
+        impact.current -= delta;
+        b.setLinearDamping(FREE_DAMPING);
+      } else {
+        b.setLinearDamping(SPRING_DAMPING);
+        b.setLinvel(
+          {
+            x: (home.x - p.x) * SPRING_GAIN,
+            y: (home.y - p.y) * SPRING_GAIN,
+            z: (home.z - p.z) * SPRING_GAIN,
+          },
+          true
+        );
+        b.setAngvel({ x: 0.3, y: 0.4, z: 0.2 }, true);
+      }
     }
 
     if (group.current) {
