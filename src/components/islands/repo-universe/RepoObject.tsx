@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
+import { Sparkles } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { BallCollider, RigidBody, type RapierRigidBody } from "@react-three/rapier";
 import type { Repo } from "../../data/repos";
@@ -16,11 +17,7 @@ export const LANG_COLORS: Record<string, string> = {
   Unknown: "#7d8ca3",
 };
 
-const SPRING_GAIN = 4;
 const SPRING_DAMPING = 0.4;
-const FREE_DAMPING = 0.25;
-const IMPACT_SPEED = 0.8;
-const IMPACT_WINDOW = 0.3;
 
 function makeSoccerTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
@@ -102,14 +99,16 @@ function makeSoccerTexture(): THREE.CanvasTexture {
 interface RepoObjectProps {
   repo: Repo;
   position: [number, number, number];
+  draggedPos: React.RefObject<THREE.Vector3 | null>;
   onSelect: (repo: Repo) => void;
   reduced: boolean;
 }
 
-export default function RepoObject({ repo, position, onSelect, reduced }: RepoObjectProps) {
+export default function RepoObject({ repo, position, draggedPos: draggedPosRef, onSelect, reduced }: RepoObjectProps) {
   const body = useRef<RapierRigidBody>(null);
   const group = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
+  const [burst, setBurst] = useState(false);
 
   const gl = useThree((s) => s.gl);
   const camera = useThree((s) => s.camera);
@@ -129,9 +128,8 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
     prevX: 0,
     prevY: 0,
     prevZ: 0,
+    downTimestamp: 0, // Add this new property
   });
-
-  const impact = useRef(0);
 
   const lang = repo.language || "Unknown";
   const langColor = LANG_COLORS[lang] || "#7d8ca3";
@@ -203,7 +201,7 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
       -((clientY - rect.top) / rect.height) * 2 + 1
     );
     raycaster.setFromCamera(ndc, camera);
-    plane.set(new THREE.Vector3(0, 1, 0), -drag.current.y);
+    plane.set(new THREE.Vector3(0, 0, 1), -home.z);
     const hit = new THREE.Vector3();
     if (raycaster.ray.intersectPlane(plane, hit)) return hit;
     return null;
@@ -213,22 +211,33 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
     if (!drag.current.active) return;
     drag.current.moved += Math.abs(e.movementX) + Math.abs(e.movementY);
     const p = castPoint(e.clientX, e.clientY);
-    if (p) drag.current.target.copy(p);
+    if (p) {
+      drag.current.target.x = p.x;
+      drag.current.target.y = p.y;
+      drag.current.target.z = home.z;
+    }
   };
 
-  const onPointerUp = () => {
+const onPointerUp = () => {
     if (!drag.current.active) return;
     drag.current.active = false;
+    draggedPosRef.current = null;
     const b = body.current;
     if (!b) return;
-    if (drag.current.moved < 6) {
+    if (drag.current.moved < 6 && (performance.now() - drag.current.downTimestamp < 250)) {
       onSelect(repo);
     } else {
-      b.setLinvel(drag.current.vel.clone().multiplyScalar(1.1), true);
-      b.setAngvel(
-        new THREE.Vector3((Math.random() - 0.5) * 0.4, (Math.random() - 0.5) * 0.4, (Math.random() - 0.5) * 0.4),
-        true
-      );
+      const throwVel = drag.current.vel.clone();
+      const throwSpeed = throwVel.length();
+      // Cap throw velocity to prevent instability
+      const maxThrowSpeed = 25;
+      if (throwSpeed > maxThrowSpeed) {
+        throwVel.multiplyScalar(maxThrowSpeed / throwSpeed);
+      }
+      b.applyImpulse({ x: throwVel.x, y: throwVel.y, z: 0 }, true);
+      b.setAngvel(new THREE.Vector3(0, 0, 0), true);
+      setBurst(true);
+      setTimeout(() => setBurst(false), 200);
     }
     window.removeEventListener("pointermove", onPointerMove);
     window.removeEventListener("pointerup", onPointerUp);
@@ -244,12 +253,15 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
     drag.current.lastY = e.clientY;
     drag.current.y = b.translation().y;
     drag.current.vel.set(0, 0, 0);
+    drag.current.downTimestamp = performance.now();
     const t0 = b.translation();
     drag.current.prevX = t0.x;
     drag.current.prevY = t0.y;
     drag.current.prevZ = t0.z;
     const p = castPoint(e.clientX, e.clientY);
     if (p) drag.current.target.copy(p);
+    // Register this ball as being dragged
+    draggedPosRef.current = new THREE.Vector3();
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
   };
@@ -261,49 +273,67 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
     if (drag.current.active) {
       const cur = b.translation();
       const step = drag.current.target.clone().sub(new THREE.Vector3(cur.x, cur.y, cur.z)).multiplyScalar(Math.min(delta * 10, 1));
-      const next = { x: cur.x + step.x, y: cur.y + step.y, z: cur.z + step.z };
+      const next = { x: cur.x + step.x, y: cur.y + step.y, z: home.z };
       b.setTranslation(next, true);
+      if (draggedPosRef.current) draggedPosRef.current.set(next.x, next.y, next.z);
       drag.current.vel.set(
         (next.x - drag.current.prevX) / Math.max(delta, 1e-4),
         (next.y - drag.current.prevY) / Math.max(delta, 1e-4),
-        (next.z - drag.current.prevZ) / Math.max(delta, 1e-4)
+        0
       );
-      b.setLinvel({ x: drag.current.vel.x, y: drag.current.vel.y, z: drag.current.vel.z }, true);
+      b.setLinvel({ x: drag.current.vel.x, y: drag.current.vel.y, z: 0 }, true);
       b.setAngvel({ x: 0, y: 0, z: 0 }, true);
       drag.current.prevX = next.x;
       drag.current.prevY = next.y;
-      drag.current.prevZ = next.z;
+      drag.current.prevZ = home.z;
       return;
     }
 
     if (!reduced) {
       const p = b.translation();
-      const lv = b.linvel();
-      const speed = Math.hypot(lv.x, lv.y, lv.z);
-      const outward = lv.x * (p.x - home.x) + lv.y * (p.y - home.y) + lv.z * (p.z - home.z) > 0;
-      if (speed > IMPACT_SPEED && outward) impact.current = IMPACT_WINDOW;
 
-      if (impact.current > 0) {
-        impact.current -= delta;
-        b.setLinearDamping(FREE_DAMPING);
-      } else {
-        b.setLinearDamping(SPRING_DAMPING);
-        b.setLinvel(
-          {
-            x: (home.x - p.x) * SPRING_GAIN,
-            y: (home.y - p.y) * SPRING_GAIN,
-            z: (home.z - p.z) * SPRING_GAIN,
-          },
-          true
-        );
-        b.setAngvel({ x: 0.3, y: 0.4, z: 0.2 }, true);
+      const threat = draggedPosRef.current;
+      if (threat) {
+        const dx = p.x - threat.x;
+        const dy = p.y - threat.y;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < 2.5 && dist > 0.01) {
+          const forceStrength = (1 - dist / 2.5) * 8;
+          b.applyImpulse({ x: (dx / dist) * forceStrength * delta, y: (dy / dist) * forceStrength * delta, z: 0 }, true);
+        }
       }
+
+      const v = b.linvel();
+      const maxV = 10;
+      const gain = Math.min(delta * 5, 1);
+      const desiredVx = THREE.MathUtils.clamp((home.x - p.x) * 4, -maxV, maxV);
+      const desiredVy = THREE.MathUtils.clamp((home.y - p.y) * 4, -maxV, maxV);
+      b.setLinvel(
+        { x: v.x + (desiredVx - v.x) * gain, y: v.y + (desiredVy - v.y) * gain, z: 0 },
+        true
+      );
+
+      if (Math.abs(p.x) > 10 || Math.abs(p.y) > 10) {
+        b.setTranslation({ x: home.x, y: home.y, z: home.z }, true);
+        b.setLinvel({ x: 0, y: 0, z: 0 }, true);
+      }
+      b.setAngvel({ x: 0, y: 0, z: 0 }, true);
     }
 
     if (group.current) {
       const breath = reduced ? 0 : Math.sin(state.clock.elapsedTime * 1.4 + repo.name.length) * 0.02;
       const target = hovered ? 1.12 + breath : 1 + breath;
       group.current.scale.lerp(new THREE.Vector3(target, target, target), Math.min(delta * 6, 1));
+
+      if (!reduced && !drag.current.active) {
+        const phase = home.x * 2.1 + home.y * 1.7;
+        group.current.position.y = Math.sin(state.clock.elapsedTime * 1.2 + phase) * 0.05;
+        group.current.position.x = Math.sin(state.clock.elapsedTime * 0.7 + phase) * 0.02;
+      } else {
+        group.current.position.y = 0;
+        group.current.position.x = 0;
+      }
     }
   });
 
@@ -313,8 +343,8 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
       position={position}
       colliders={false}
       friction={0.1}
-      restitution={0.3}
-      linearDamping={0.9}
+      restitution={0.05}
+      linearDamping={SPRING_DAMPING}
       angularDamping={0.45}
     >
       <BallCollider args={[0.55]} />
@@ -341,6 +371,16 @@ export default function RepoObject({ repo, position, onSelect, reduced }: RepoOb
           <sprite position={[0, 0.15, 0.78]} scale={spriteScale}>
             <spriteMaterial map={labelTex} transparent depthWrite={false} />
           </sprite>
+        )}
+        {burst && (
+          <Sparkles
+            count={30}
+            scale={1.2}
+            size={2}
+            speed={2}
+            opacity={0.8}
+            color="#00e5ff"
+          />
         )}
       </group>
     </RigidBody>

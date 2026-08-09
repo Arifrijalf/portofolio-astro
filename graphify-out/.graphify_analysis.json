@@ -1,0 +1,309 @@
+{
+  "communities": {
+    "0": [
+      "astro",
+      "astrojs_react",
+      "dimforge_rapier3d_compat",
+      "framer_motion",
+      "lucide",
+      "package_dependencies",
+      "package_dependencies_astro",
+      "package_dependencies_astrojs_react",
+      "package_dependencies_dimforge_rapier3d_compat",
+      "package_dependencies_framer_motion",
+      "package_dependencies_lucide",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_react_three_drei",
+      "package_dependencies_react_three_fiber",
+      "package_dependencies_react_three_rapier",
+      "package_dependencies_tailwindcss",
+      "package_dependencies_tailwindcss_vite",
+      "package_dependencies_three",
+      "package_dependencies_types_react",
+      "package_dependencies_types_react_dom",
+      "react",
+      "react_dom",
+      "react_three_drei",
+      "react_three_fiber",
+      "react_three_rapier",
+      "tailwindcss",
+      "tailwindcss_vite",
+      "three",
+      "types_react",
+      "types_react_dom"
+    ],
+    "1": [
+      "src_components_github",
+      "src_components_github_repolinks",
+      "src_components_islands_repo_universe_repoobject",
+      "src_components_islands_repo_universe_repoobject_lang_colors",
+      "src_components_islands_repo_universe_repoobject_makesoccertexture",
+      "src_components_islands_repo_universe_repoobject_repoobject",
+      "src_components_islands_repo_universe_repoobject_repoobjectprops",
+      "src_components_islands_repo_universe_repopanel",
+      "src_components_islands_repo_universe_repopanel_repopanel",
+      "src_components_islands_repo_universe_repopanel_repopanelprops",
+      "src_components_islands_repo_universe_repouniverse",
+      "src_components_islands_repo_universe_repouniverse_camerarig",
+      "src_components_islands_repo_universe_repouniverse_generatepositions",
+      "src_components_islands_repo_universe_repouniverse_repouniverse",
+      "src_components_islands_repo_universe_repouniverse_repouniverseprops",
+      "src_components_islands_repo_universe_repouniverse_roomenv",
+      "src_data_repos",
+      "src_data_repos_fallback",
+      "src_data_repos_fetchrepos",
+      "src_data_repos_githubapirepo",
+      "src_data_repos_mapapi",
+      "src_data_repos_matchestarget",
+      "src_data_repos_repo",
+      "src_data_repos_target_slugs",
+      "src_data_repos_toslug"
+    ],
+    "2": [
+      "architecture",
+      "architecture_component_responsibilities",
+      "architecture_data_flow",
+      "architecture_deploy_pipeline",
+      "architecture_directory_tree",
+      "architecture_scripts_src_scripts_main_ts",
+      "architecture_stack",
+      "content",
+      "readme",
+      "readme_documentation",
+      "readme_features",
+      "readme_license",
+      "readme_portofolio_astro",
+      "readme_quick_start",
+      "readme_stack",
+      "style",
+      "style_custom_classes",
+      "style_fonts_loaded_via_google_fonts",
+      "style_keyframes",
+      "style_responsive",
+      "style_style_md_design_tokens_css_classes",
+      "style_theme_tokens_tailwind_v4"
+    ],
+    "3": [
+      "package",
+      "package_allowscripts",
+      "package_allowscripts_esbuild_0_28_1",
+      "package_allowscripts_sharp_0_34_5",
+      "package_allowscripts_sharp_0_35_3",
+      "package_allowscripts_workerd_1_20260708_1",
+      "package_allowscripts_workerd_1_20260722_1",
+      "package_devdependencies",
+      "package_devdependencies_wrangler",
+      "package_engines",
+      "package_engines_node",
+      "package_name",
+      "package_scripts",
+      "package_scripts_astro",
+      "package_scripts_build",
+      "package_scripts_deploy",
+      "package_scripts_dev",
+      "package_scripts_preview",
+      "package_type",
+      "package_version",
+      "wrangler"
+    ],
+    "4": [
+      "src_components_about",
+      "src_components_about_education",
+      "src_components_about_interests",
+      "src_components_bootscreen",
+      "src_components_certificates",
+      "src_components_contact",
+      "src_components_experience",
+      "src_components_footer",
+      "src_components_hero",
+      "src_components_islands_modelviewer",
+      "src_components_islands_modelviewer_modelviewer",
+      "src_components_navigation",
+      "src_components_projects",
+      "src_components_skills",
+      "src_layouts_baselayout",
+      "src_pages_index"
+    ],
+    "5": [
+      "content_about_engineering_philosophy",
+      "content_certificates",
+      "content_contact_channels",
+      "content_contact_form",
+      "content_content_md_site_content_single_source_of_truth",
+      "content_education",
+      "content_experience_2",
+      "content_footer",
+      "content_github_section",
+      "content_identity",
+      "content_interests",
+      "content_projects_3",
+      "content_skills_7_categories"
+    ],
+    "6": [
+      "design",
+      "design_3d_scene_desktop_only_1024px",
+      "design_boot_screen",
+      "design_custom_cursor",
+      "design_design_md_pcb_blueprint_aesthetic",
+      "design_direction",
+      "design_interactivity_rules",
+      "design_navigation_hover",
+      "design_palette",
+      "design_scroll_reveal",
+      "design_signature_elements",
+      "design_typography"
+    ],
+    "7": [
+      "src_scripts_main",
+      "src_scripts_main_closemobilemenu",
+      "src_scripts_main_init",
+      "src_scripts_main_initboot",
+      "src_scripts_main_initcontactform",
+      "src_scripts_main_initcursor",
+      "src_scripts_main_initdownloadcv",
+      "src_scripts_main_initicons",
+      "src_scripts_main_initnav",
+      "src_scripts_main_initnavtilt",
+      "src_scripts_main_initreveal",
+      "src_scripts_main_inittypewriter"
+    ],
+    "8": [
+      "deployment",
+      "deployment_astro_config_mjs",
+      "deployment_caching",
+      "deployment_configuration",
+      "deployment_content_security_policy",
+      "deployment_deploy",
+      "deployment_hosting",
+      "deployment_http_headers_public_headers",
+      "deployment_local",
+      "deployment_troubleshooting",
+      "deployment_wrangler_jsonc"
+    ],
+    "9": [
+      "src_components_islands_threescene",
+      "src_components_islands_threescene_buildboard",
+      "src_components_islands_threescene_buildchip",
+      "src_components_islands_threescene_buildled",
+      "src_components_islands_threescene_buildorbit",
+      "src_components_islands_threescene_buildsignaldot",
+      "src_components_islands_threescene_buildsparkles",
+      "src_components_islands_threescene_buildtracechords",
+      "src_components_islands_threescene_buildtraces",
+      "src_components_islands_threescene_makelabel",
+      "src_components_islands_threescene_threescene"
+    ],
+    "10": [
+      "ref",
+      "ref_astro_tsconfigs_strict",
+      "ref_astro_types_d_ts",
+      "ref_dist",
+      "ref_worker_configuration_d_ts",
+      "tsconfig",
+      "tsconfig_exclude",
+      "tsconfig_extends",
+      "tsconfig_include"
+    ],
+    "11": [
+      "public_scripts_stars",
+      "public_scripts_stars_addshootingstar",
+      "public_scripts_stars_draw",
+      "public_scripts_stars_drawstaticstars",
+      "public_scripts_stars_resize"
+    ],
+    "12": [
+      "claude",
+      "claude_development",
+      "claude_documentation"
+    ],
+    "13": [
+      "astro_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.06451612903225806,
+    "1": 0.12,
+    "2": 0.09090909090909091,
+    "3": 0.09523809523809523,
+    "4": 0.125,
+    "5": 0.15384615384615385,
+    "6": 0.16666666666666666,
+    "7": 0.3181818181818182,
+    "8": 0.18181818181818182,
+    "9": 0.34545454545454546,
+    "10": 0.2222222222222222,
+    "11": 0.6,
+    "12": 0.6666666666666666,
+    "13": 1.0
+  },
+  "gods": [
+    {
+      "id": "content_content_md_site_content_single_source_of_truth",
+      "label": "CONTENT.md \u2014 Site Content (single source of truth)",
+      "degree": 10
+    },
+    {
+      "id": "src_components_islands_threescene_threescene",
+      "label": "ThreeScene()",
+      "degree": 10
+    },
+    {
+      "id": "src_scripts_main_init",
+      "label": "init()",
+      "degree": 10
+    },
+    {
+      "id": "design_design_md_pcb_blueprint_aesthetic",
+      "label": "DESIGN.md \u2014 PCB / Blueprint Aesthetic",
+      "degree": 6
+    },
+    {
+      "id": "design_signature_elements",
+      "label": "Signature elements",
+      "degree": 6
+    },
+    {
+      "id": "readme_portofolio_astro",
+      "label": "Portofolio Astro",
+      "degree": 6
+    },
+    {
+      "id": "style_style_md_design_tokens_css_classes",
+      "label": "STYLE.md \u2014 Design Tokens & CSS Classes",
+      "degree": 6
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 6
+    },
+    {
+      "id": "package_allowscripts",
+      "label": "allowScripts",
+      "degree": 6
+    },
+    {
+      "id": "src_data_repos_repo",
+      "label": "Repo",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "RepoPanelProps",
+      "target": "Repo",
+      "source_files": [
+        "src/components/islands/repo-universe/RepoPanel.tsx",
+        "src/data/repos.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "cross-file semantic connection"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

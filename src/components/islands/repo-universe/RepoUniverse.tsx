@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
 import { Sparkles } from "@react-three/drei";
@@ -12,15 +12,22 @@ interface RepoUniverseProps {
   repos: Repo[];
 }
 
-const SPAWN = [
-  [-2.4, 0.9, 0.4],
-  [2.4, 0.7, -0.6],
-  [0, 1.6, -1.2],
-  [-1.6, -0.2, -0.8],
-  [1.6, -0.4, 0.2],
-  [0.4, 1.0, -1.8],
-  [-0.2, 2.1, 0.8],
-];
+const generatePositions = (count: number) => {
+  const X_RANGE = [-2.8, 2.8];
+  const Y_RANGE = [-0.8, 2.2];
+  const MIN_DIST = 1.3;
+  const positions: [number, number, number][] = [];
+  let attempts = 0;
+  
+  while (positions.length < count && attempts < 500) {
+    attempts++;
+    const x = Math.random() * (X_RANGE[1] - X_RANGE[0]) + X_RANGE[0];
+    const y = Math.random() * (Y_RANGE[1] - Y_RANGE[0]) + Y_RANGE[0];
+    const tooClose = positions.some(p => Math.hypot(p[0]-x, p[1]-y) < MIN_DIST);
+    if (!tooClose) positions.push([x, y, 0]);
+  }
+  return positions;
+};
 
 function RoomEnv() {
   const gl = useThree((s) => s.gl);
@@ -66,6 +73,8 @@ export default function RepoUniverse({ repos }: RepoUniverseProps) {
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const dpr = reduced ? 1 : isMobile ? [1, 1.5] : [1, 2];
+  const positions = useMemo(() => generatePositions(Math.min(repos.length, 7)), [repos.length]);
+  const draggedPosRef = useRef<THREE.Vector3 | null>(null);
 
   return (
     <div className="relative h-[420px] w-full md:h-[520px]">
@@ -96,7 +105,8 @@ export default function RepoUniverse({ repos }: RepoUniverseProps) {
             <RepoObject
               key={repo.slug}
               repo={repo}
-              position={SPAWN[i]}
+              position={positions[i]}
+              draggedPos={draggedPosRef}
               onSelect={setSelected}
               reduced={reduced}
             />
