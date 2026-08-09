@@ -100,11 +100,12 @@ interface RepoObjectProps {
   repo: Repo;
   position: [number, number, number];
   draggedPos: React.RefObject<THREE.Vector3 | null>;
+  bounds: { x: number; y: number };
   onSelect: (repo: Repo) => void;
   reduced: boolean;
 }
 
-export default function RepoObject({ repo, position, draggedPos: draggedPosRef, onSelect, reduced }: RepoObjectProps) {
+export default function RepoObject({ repo, position, draggedPos: draggedPosRef, bounds, onSelect, reduced }: RepoObjectProps) {
   const body = useRef<RapierRigidBody>(null);
   const group = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
@@ -314,7 +315,7 @@ const onPointerUp = () => {
         true
       );
 
-      if (Math.abs(p.x) > 10 || Math.abs(p.y) > 10) {
+      if (Math.abs(p.x) > bounds.x || Math.abs(p.y) > bounds.y) {
         b.setTranslation({ x: home.x, y: home.y, z: home.z }, true);
         b.setLinvel({ x: 0, y: 0, z: 0 }, true);
       }

@@ -45,9 +45,17 @@ function RoomEnv() {
   return null;
 }
 
-function CameraRig({ reduced }: { reduced: boolean }) {
+const SPRITE_HALF_W = (0.55 * 512) / 192 / 2;
+const SPRITE_HALF_H = 0.55 / 2;
+const BOUND_MARGIN = 0.25;
+const MIN_Z = 8.5;
+
+function CameraRig({ reduced, fitHalfX }: { reduced: boolean; fitHalfX: number }) {
   const camera = useThree((s) => s.camera);
+  const size = useThree((s) => s.size);
   const target = useRef(new THREE.Vector3(0, 0, 8.5));
+  const fitZ = useRef(MIN_Z);
+  fitZ.current = Math.max(fitHalfX / (Math.tan((45 * Math.PI) / 360) * Math.max(size.width / size.height, 0.3)), MIN_Z);
   useEffect(() => {
     if (reduced) return;
     const onMove = (e: MouseEvent) => {
@@ -58,9 +66,12 @@ function CameraRig({ reduced }: { reduced: boolean }) {
     return () => window.removeEventListener("mousemove", onMove);
   }, [reduced]);
   useFrame((_, delta) => {
-    if (reduced) return;
-    camera.position.x += (target.current.x - camera.position.x) * Math.min(delta * 2.5, 1);
-    camera.position.y += (target.current.y - camera.position.y) * Math.min(delta * 2.5, 1);
+    const k = Math.min(delta * 2.5, 1);
+    if (!reduced) {
+      camera.position.x += (target.current.x - camera.position.x) * k;
+      camera.position.y += (target.current.y - camera.position.y) * k;
+    }
+    camera.position.z += (fitZ.current - camera.position.z) * k;
     camera.lookAt(0, 0, 0);
   });
   return null;
@@ -76,6 +87,19 @@ export default function RepoUniverse({ repos }: RepoUniverseProps) {
   const positions = useMemo(() => generatePositions(Math.min(repos.length, 7)), [repos.length]);
   const draggedPosRef = useRef<THREE.Vector3 | null>(null);
 
+  const fitHalfX = useMemo(
+    () =>
+      positions.reduce((m, p) => Math.max(m, Math.abs(p[0])), 0) + SPRITE_HALF_W + BOUND_MARGIN,
+    [positions]
+  );
+  const bounds = useMemo(
+    () => ({
+      x: fitHalfX,
+      y: positions.reduce((m, p) => Math.max(m, Math.abs(p[1])), 0) + SPRITE_HALF_H + BOUND_MARGIN,
+    }),
+    [positions, fitHalfX]
+  );
+
   return (
     <div className="relative h-[420px] w-full md:h-[520px]">
       <Canvas
@@ -86,7 +110,7 @@ export default function RepoUniverse({ repos }: RepoUniverseProps) {
         aria-hidden="true"
       >
         <RoomEnv />
-        <CameraRig reduced={reduced} />
+        <CameraRig reduced={reduced} fitHalfX={fitHalfX} />
         <ambientLight intensity={0.85} />
         <directionalLight position={[4, 6, 5]} intensity={1.8} castShadow />
         <pointLight position={[-5, 2, -3]} intensity={1.2} color="#00e5ff" />
@@ -107,6 +131,7 @@ export default function RepoUniverse({ repos }: RepoUniverseProps) {
               repo={repo}
               position={positions[i]}
               draggedPos={draggedPosRef}
+              bounds={bounds}
               onSelect={setSelected}
               reduced={reduced}
             />
