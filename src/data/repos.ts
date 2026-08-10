@@ -11,92 +11,97 @@ export interface Repo {
 }
 
 const TARGET_SLUGS = new Set([
-  "iot-control-center",
-  "baby-incubator-pid",
-  "esp32-monitoring",
-  "rfid-access-system",
-  "smart-parking",
-  "fire-detection",
-  "portfolio-website",
+  "oscillator-calc",
+  "dashboard-cloudflare",
+  "portofolio-astro",
+  "blurrr",
+  "inkubatorbayi",
+  "keuangan-keluarga",
+  "cerdascermat",
 ]);
 
 const FALLBACK: Repo[] = [
   {
-    name: "IoT Control Center",
-    slug: "iot-control-center",
-    description: "Centralized IoT dashboard for monitoring and managing distributed device fleets.",
+    name: "Oscillator Calc",
+    slug: "oscillator-calc",
+    description:
+      "Web-based RC Oscillator Frequency Calculator (PWA) with oscilloscope graph.",
     language: "JavaScript",
-    topics: ["iot", "mqtt", "dashboard"],
-    stars: 12,
-    forks: 3,
-    updatedAt: "2025-12-01T00:00:00Z",
-    htmlUrl: "https://github.com/Arifrijalf/iot-control-center",
+    topics: ["pwa", "calculator", "javascript"],
+    stars: 0,
+    forks: 0,
+    updatedAt: "2026-07-08T18:28:59Z",
+    htmlUrl: "https://github.com/Arifrijalf/Oscillator-Calc",
   },
   {
-    name: "Baby Incubator PID",
-    slug: "baby-incubator-pid",
-    description: "High-precision temperature regulation for neonatal care with ESP32 PID control.",
+    name: "Dashboard Cloudflare",
+    slug: "dashboard-cloudflare",
+    description:
+      "Centralized dashboard deployed on Cloudflare for monitoring distributed services.",
+    language: "TypeScript",
+    topics: ["cloudflare", "dashboard", "typescript"],
+    stars: 0,
+    forks: 0,
+    updatedAt: "2026-08-04T01:58:12Z",
+    htmlUrl: "https://github.com/Arifrijalf/Dashboard-cloudflare",
+  },
+  {
+    name: "Portofolio Astro",
+    slug: "portofolio-astro",
+    description: "PCB blueprint inspired portfolio with original 3D scenes.",
+    language: "HTML",
+    topics: ["astro", "threejs", "portfolio"],
+    stars: 0,
+    forks: 0,
+    updatedAt: "2026-08-09T16:43:22Z",
+    htmlUrl: "https://github.com/Arifrijalf/portofolio-astro",
+  },
+  {
+    name: "Blurrr",
+    slug: "blurrr",
+    description:
+      "Real-time hand gesture detection application using MediaPipe.",
+    language: "Python",
+    topics: ["mediapipe", "python", "javascript"],
+    stars: 0,
+    forks: 0,
+    updatedAt: "2026-07-25T13:24:39Z",
+    htmlUrl: "https://github.com/Arifrijalf/blurrr",
+  },
+  {
+    name: "Inkubator Bayi",
+    slug: "inkubatorbayi",
+    description:
+      "High-precision temperature regulation for neonatal care with ESP32 PID control.",
     language: "C++",
     topics: ["esp32", "pid", "embedded"],
-    stars: 9,
-    forks: 2,
-    updatedAt: "2025-10-15T00:00:00Z",
-    htmlUrl: "https://github.com/Arifrijalf/baby-incubator-pid",
-  },
-  {
-    name: "ESP32 Monitoring",
-    slug: "esp32-monitoring",
-    description: "Real-time environmental monitoring using distributed ESP32 sensor nodes over MQTT.",
-    language: "C",
-    topics: ["esp32", "mqtt", "sensors"],
-    stars: 7,
-    forks: 1,
-    updatedAt: "2025-09-02T00:00:00Z",
-    htmlUrl: "https://github.com/Arifrijalf/esp32-monitoring",
-  },
-  {
-    name: "RFID Access System",
-    slug: "rfid-access-system",
-    description: "RFID-based door access control with event logging and user management.",
-    language: "C++",
-    topics: ["rfid", "embedded", "security"],
-    stars: 5,
-    forks: 1,
-    updatedAt: "2025-08-20T00:00:00Z",
-    htmlUrl: "https://github.com/Arifrijalf/rfid-access-system",
-  },
-  {
-    name: "Smart Parking",
-    slug: "smart-parking",
-    description: "IoT parking occupancy detection with live slot availability dashboards.",
-    language: "Python",
-    topics: ["iot", "sensors", "dashboard"],
-    stars: 6,
-    forks: 2,
-    updatedAt: "2025-07-11T00:00:00Z",
-    htmlUrl: "https://github.com/Arifrijalf/smart-parking",
-  },
-  {
-    name: "Fire Detection",
-    slug: "fire-detection",
-    description: "Edge fire detection system combining sensor fusion with on-device inference.",
-    language: "C",
-    topics: ["embedded", "edge", "safety"],
-    stars: 4,
+    stars: 0,
     forks: 0,
-    updatedAt: "2025-06-05T00:00:00Z",
-    htmlUrl: "https://github.com/Arifrijalf/fire-detection",
+    updatedAt: "2026-07-18T11:22:50Z",
+    htmlUrl: "https://github.com/Arifrijalf/InkubatorBayi",
   },
   {
-    name: "Portfolio Website",
-    slug: "portfolio-website",
-    description: "PCB blueprint inspired portfolio with original 3D scenes.",
-    language: "Astro",
-    topics: ["astro", "threejs", "portfolio"],
-    stars: 3,
+    name: "Keuangan Keluarga",
+    slug: "keuangan-keluarga",
+    description:
+      "A smart PWA application for managing personal and family cash flow.",
+    language: "JavaScript",
+    topics: ["pwa", "firebase", "javascript"],
+    stars: 0,
     forks: 0,
-    updatedAt: "2026-08-05T00:00:00Z",
-    htmlUrl: "https://github.com/Arifrijalf/portfolio-website",
+    updatedAt: "2026-07-03T10:57:57Z",
+    htmlUrl: "https://github.com/Arifrijalf/keuangan-keluarga",
+  },
+  {
+    name: "Cerdas Cermat",
+    slug: "cerdascermat",
+    description: "Interactive quiz application built with TypeScript.",
+    language: "TypeScript",
+    topics: ["typescript", "quiz", "game"],
+    stars: 0,
+    forks: 0,
+    updatedAt: "2026-06-21T12:32:36Z",
+    htmlUrl: "https://github.com/Arifrijalf/CerdasCermat",
   },
 ];
 
@@ -124,13 +129,14 @@ function matchesTarget(name: string): boolean {
   if (TARGET_SLUGS.has(slug)) return true;
   const lower = name.toLowerCase();
   return (
-    lower.includes("iot") ||
-    lower.includes("incubator") ||
-    lower.includes("esp32") ||
-    lower.includes("rfid") ||
-    lower.includes("parking") ||
-    lower.includes("fire") ||
-    lower.includes("portfolio")
+    lower.includes("oscillator") ||
+    lower.includes("dashboard") ||
+    lower.includes("portofolio") ||
+    lower.includes("blurrr") ||
+    lower.includes("inkubator") ||
+    lower.includes("keuangan") ||
+    lower.includes("cerdas") ||
+    lower.includes("sensor")
   );
 }
 
@@ -152,7 +158,7 @@ export async function fetchRepos(): Promise<Repo[]> {
   try {
     const res = await fetch(
       "https://api.github.com/users/Arifrijalf/repos?sort=updated&per_page=100",
-      { headers: { Accept: "application/vnd.github+json" } }
+      { headers: { Accept: "application/vnd.github+json" } },
     );
     if (!res.ok) throw new Error(`GitHub API ${res.status}`);
     const list = (await res.json()) as GitHubApiRepo[];
