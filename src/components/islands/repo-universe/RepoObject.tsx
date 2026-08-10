@@ -18,6 +18,14 @@ export const LANG_COLORS: Record<string, string> = {
 };
 
 const SPRING_DAMPING = 0.4;
+const HOME_STIFFNESS = 28;
+const HOME_DAMPING = 5.5;
+const HOME_MAX_SPEED = 4.5;
+const HOME_BRAKE = 3;
+const MAX_ACCEL = 60;
+const BOUND_PUSH = 25;
+const SETTLE_RADIUS = 0.05;
+const SETTLE_SPEED = 0.25;
 
 function makeSoccerTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
@@ -306,20 +314,46 @@ const onPointerUp = () => {
       }
 
       const v = b.linvel();
-      const maxV = 10;
-      const gain = Math.min(delta * 5, 1);
-      const desiredVx = THREE.MathUtils.clamp((home.x - p.x) * 4, -maxV, maxV);
-      const desiredVy = THREE.MathUtils.clamp((home.y - p.y) * 4, -maxV, maxV);
-      b.setLinvel(
-        { x: v.x + (desiredVx - v.x) * gain, y: v.y + (desiredVy - v.y) * gain, z: 0 },
-        true
-      );
+      const mass = b.mass();
+      const dx = home.x - p.x;
+      const dy = home.y - p.y;
+      const distHome = Math.hypot(dx, dy);
 
-      if (Math.abs(p.x) > bounds.x || Math.abs(p.y) > bounds.y) {
-        b.setTranslation({ x: home.x, y: home.y, z: home.z }, true);
+      if (distHome <= SETTLE_RADIUS && Math.hypot(v.x, v.y) <= SETTLE_SPEED) {
+        if (distHome > 0.001) {
+          b.setTranslation({ x: home.x, y: home.y, z: home.z }, true);
+        }
         b.setLinvel({ x: 0, y: 0, z: 0 }, true);
+        b.setAngvel({ x: 0, y: 0, z: 0 }, true);
+        b.sleep();
+      } else {
+        b.wakeUp();
+        const ax = dx * HOME_STIFFNESS - v.x * HOME_DAMPING;
+        const ay = dy * HOME_STIFFNESS - v.y * HOME_DAMPING;
+        const towardSpeed = (dx * v.x + dy * v.y) / Math.max(distHome, 1e-4);
+        let scale = 1;
+        if (towardSpeed > HOME_MAX_SPEED) {
+          scale = Math.max(0, 1 - (towardSpeed - HOME_MAX_SPEED) / HOME_BRAKE);
+        }
+        const aMag = Math.hypot(ax, ay);
+        if (aMag > MAX_ACCEL) scale = Math.min(scale, MAX_ACCEL / aMag);
+        b.applyImpulse({ x: ax * mass * delta * scale, y: ay * mass * delta * scale, z: 0 }, true);
+        b.setAngvel({ x: 0, y: 0, z: 0 }, true);
       }
-      b.setAngvel({ x: 0, y: 0, z: 0 }, true);
+
+      const overX = Math.abs(p.x) - bounds.x;
+      const overY = Math.abs(p.y) - bounds.y;
+      if (overX > 0 || overY > 0) {
+        b.wakeUp();
+        b.applyImpulse(
+          {
+            x: (overX > 0 ? -Math.sign(p.x) * overX * BOUND_PUSH : 0) * mass * delta,
+            y: (overY > 0 ? -Math.sign(p.y) * overY * BOUND_PUSH : 0) * mass * delta,
+            z: 0,
+          },
+          true
+        );
+      }
     }
 
     if (group.current) {
