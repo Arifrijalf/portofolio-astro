@@ -49,11 +49,11 @@ Equivalent to `npm run build && npx wrangler pages deploy dist --project-name po
 
 ```
 default-src 'self'
-script-src 'self' 'unsafe-inline'
-style-src 'self' https://fonts.googleapis.com
+script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'
+style-src 'self' 'unsafe-inline' https://fonts.googleapis.com
 font-src 'self' https://fonts.gstatic.com
 img-src 'self' https://github-readme-activity-graph.vercel.app data: blob:
-connect-src 'self' https://formspree.io blob:
+connect-src 'self' https://formspree.io https://github-contributions-api.jogruber.de blob:
 frame-src 'none'
 object-src 'none'
 base-uri 'self'
@@ -63,8 +63,9 @@ frame-ancestors 'none'
 
 Notes:
 - `img-src` allows the GitHub graph service + `blob:`/`data:` (3D canvas textures, image fallbacks).
-- `connect-src` allows Formspree for the contact form + `blob:`.
-- **No `wasm-unsafe-eval`** — no Draco/WASM in this project.
+- `connect-src` allows Formspree for the contact form + GitHub contributions API + `blob:`.
+- `wasm-unsafe-eval` is **required** for `@dimforge/rapier3d-compat` (Rapier physics WASM module used in RepoUniverse).
+- `style-src 'unsafe-inline'` needed for framer-motion's inline animation styles in RepoPanel.
 
 Other headers: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, HSTS (`max-age=31536000; includeSubDomains; preload`), `Referrer-Policy: strict-origin-when-cross-origin`, `X-XSS-Protection: 1; mode=block`, `Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()`.
 

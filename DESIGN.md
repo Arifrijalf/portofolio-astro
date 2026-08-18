@@ -52,8 +52,19 @@ Links animate on hover/tap (`.nav-link`):
 ### 3D scene (desktop only, >1024px)
 Procedural scene behind the hero: rotating **chip** (box + gold pins + cyan edges), a **gear** meshed with the chip, random radial **circuit traces** (line segments), and an **orbit ring of copper particles**. Mouse parallax tilts the whole group. No models, no textures, no Draco. Falls back to a static frame under `prefers-reduced-motion`.
 
+### 3D GitHub Repo Universe (GitHub section)
+Physics-based interactive galaxy of repository modules:
+- **Soccer-ball PCB texture**: Procedurally generated icosphere texture (`makeSoccerTexture`) — cyan pentagons on graphite, PCB-trace edges, `mix-blend` difference for readability.
+- **Language-colored label sprites**: Each repo gets a canvas-rendered label (repo name + language) with a language-colored dot (TypeScript blue, C++ pink, Python blue, etc.).
+- **Rapier physics**: Zero-gravity `<Physics>`, `<RigidBody>` + `<BallCollider>` per repo. Drag → spring-damped follow cursor. Release → impulse throw + sparkle burst.
+- **Spring return**: Custom spring constants (`HOME_STIFFNESS`, `HOME_DAMPING`) pull repos back to their home positions. Settles to sleep when close enough.
+- **Boundary push**: Repos pushed back inside the viewport bounds to prevent escaping.
+- **CameraRig**: Mouse-driven parallax on camera position, smooth lerp, auto-fit FOV based on repo spread.
+- **RoomEnv**: HDR environment lighting via `RoomEnvironment` PMREM for consistent metallic reflections.
+- Falls back to non-WebGL GitHub activity graph image (`.sr-only` links for SEO).
+
 ## Interactivity rules
 
-- `prefers-reduced-motion: reduce` → animations/reveals disabled, 3D renders one static frame.
-- Touch devices: no custom cursor, no 3D tilt (only caret + scan sweep on tap).
+- `prefers-reduced-motion: reduce` → animations/reveals disabled, 3D renders one static frame, RepoUniverse sparkles disabled.
+- Touch devices: no custom cursor, no 3D tilt (only caret + scan sweep on tap), RepoUniverse uses `pointermove` drag.
 - Content and design are **original**; the PPL-licensed source design was not reused.

@@ -84,8 +84,9 @@ No external links on project cards.
 
 ## GitHub section
 
-- Heading: Open Source
-- Image: `https://github-readme-activity-graph.vercel.app/graph?username=Arifrijalf&bg_color=000000&color=ffffff&line=888888&point=ffffff&area=true&area_color=1c1c1c&hide_border=false&custom_title=Contribution%20Graph` (min-width 700px, lazy)
+- Heading: "Github Ball"
+- Description: "Drag, flick, and explore my active repositories. Tap a module for details."
+- 3D Universe: Physics-based galaxy of 7 repository modules (soccer-ball PCB texture, language-colored, draggable with spring return)
 - CTA: "View GitHub Profile" → https://github.com/Arifrijalf
 
 ## Footer

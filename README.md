@@ -19,9 +19,10 @@ Hosted on **Cloudflare Pages**. Custom domain: [arifrijalfadhilah.fun](https://a
 - PCB boot screen (mono `BOOT/INITIALIZING {percent}%` readout, panel wipe)
 - Custom crosshair cursor (mix-blend, rAF lerp)
 - Original procedural 3D scene (chip + gear + circuit traces + orbit particles, mouse parallax, desktop-only)
+- **3D GitHub Repo Universe** — physics-based interactive galaxy of repos (R3F + Rapier), draggable soccer-ball modules with spring return, language-colored textures, hover/select panel
 - Sticky nav with scan-sweep + caret hover and cursor-following 3D tilt
 - Scroll reveal via IntersectionObserver
-- GitHub Activity Graph
+- GitHub Activity Graph (fallback for non-WebGL)
 - Contact form via Formspree (rate-limited, honeypot-protected)
 - CV download with availability check
 
